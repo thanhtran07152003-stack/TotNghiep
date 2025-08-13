@@ -82,94 +82,21 @@
             }
         }
 
-        /* Rose petals falling and forming text */
-        .rose-petal {
+        /* Heart rain */
+        .heart {
             position: absolute;
-            font-size: 24px;
-            animation: petalFall 8s ease-in-out infinite;
-            z-index: 5;
-        }
-
-        @keyframes petalFall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            20% {
-                opacity: 1;
-            }
-            40% {
-                opacity: 1;
-            }
-            60% {
-                transform: translateY(30vh) rotate(180deg);
-                opacity: 1;
-            }
-            70% {
-                transform: translateY(35vh) rotate(200deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(40vh) rotate(360deg);
-                opacity: 0.8;
-            }
-        }
-
-        /* Text running effect */
-        .running-text {
-            background: linear-gradient(90deg, #ff0066, #ff6600, #ffaa00, #66ff00, #0066ff, #6600ff, #ff0066);
-            background-size: 400% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: textRun 3s linear infinite, textGlow 2s ease-in-out infinite alternate;
-            font-weight: 900;
-            text-shadow: 0 0 10px rgba(255, 0, 102, 0.5);
-            position: relative;
-        }
-
-        @keyframes textRun {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
-        }
-
-        @keyframes textGlow {
-            0% { 
-                filter: drop-shadow(0 0 5px #ff0066);
-                transform: scale(1);
-            }
-            100% { 
-                filter: drop-shadow(0 0 20px #0066ff) drop-shadow(0 0 30px #ff6600);
-                transform: scale(1.02);
-            }
-        }
-
-        /* Colorful hearts rain */
-        .heart-rain {
-            position: absolute;
-            font-size: 18px;
+            font-size: 20px;
+            color: #ff0000;
             animation: heartFall 4s linear infinite;
-            z-index: 3;
         }
 
         @keyframes heartFall {
             0% {
-                transform: translateY(-100vh) rotate(0deg) scale(0.5);
-                opacity: 1;
-            }
-            10% {
-                transform: translateY(-80vh) rotate(36deg) scale(0.8);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(0vh) rotate(180deg) scale(1);
-                opacity: 1;
-            }
-            90% {
-                transform: translateY(80vh) rotate(324deg) scale(0.8);
+                transform: translateY(-100vh) rotate(0deg);
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) rotate(360deg) scale(0.3);
+                transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -204,31 +131,32 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Enhanced emoji animations */
-        .emoji-party {
-            display: inline-block;
-            animation: emojiParty 2s ease-in-out infinite;
-        }
-
-        @keyframes emojiParty {
-            0%, 100% { 
-                transform: scale(1) rotate(0deg);
-            }
-            25% { 
-                transform: scale(1.2) rotate(-10deg);
-            }
-            50% { 
-                transform: scale(1.3) rotate(0deg);
-            }
-            75% { 
-                transform: scale(1.2) rotate(10deg);
-            }
-        }
-
-        /* Name text formation effect */
-        .name-text {
+        /* Modern button */
+        .modern-btn {
+            background: linear-gradient(45deg, #0891b2, #0d9488);
+            transition: all 0.3s ease;
             position: relative;
-            z-index: 4;
+            overflow: hidden;
+        }
+
+        .modern-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .modern-btn:hover::before {
+            left: 100%;
+        }
+
+        .modern-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
         }
 
         /* Fireworks container */
@@ -239,6 +167,17 @@
             width: 100%;
             height: 100%;
             z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Petal canvas */
+        #petal-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
             pointer-events: none;
         }
 
@@ -260,6 +199,20 @@
                 transform: translateY(100vh) rotate(720deg);
                 opacity: 0;
             }
+        }
+
+        /* Loading animation */
+        .loading {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: white;
+            animation: loading 1s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
         }
 
         /* Responsive adjustments for mobile */
@@ -288,11 +241,8 @@
             img {
                 max-width: 90vw !important;
             }
-            .rose-petal {
-                font-size: 18px !important;
-            }
-            .heart-rain {
-                font-size: 14px !important;
+            .heart {
+                font-size: 16px !important;
             }
             .confetti {
                 width: 8px !important;
@@ -308,6 +258,9 @@
     <!-- Fireworks canvas -->
     <canvas id="fireworks-canvas"></canvas>
 
+    <!-- Petal canvas -->
+    <canvas id="petal-canvas"></canvas>
+
     <!-- Main content -->
     <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
         <!-- Header Section -->
@@ -318,18 +271,10 @@
                 </h1>
             </div>
             
-            <div class="name-text">
-                <h2 class="text-4xl md:text-6xl font-bold running-text mb-2 drop-shadow-lg">
+            <div class="bounce">
+                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg">
                     NGUYỄN TRẦN TRÚC LINH
                 </h2>
-            </div>
-            
-            <div class="flex flex-wrap justify-center gap-4 text-4xl mb-4">
-                <span class="emoji-party" style="animation-delay: 0s;">🎊</span>
-                <span class="emoji-party" style="animation-delay: 0.2s;">🎉</span>
-                <span class="emoji-party" style="animation-delay: 0.4s;">🥳</span>
-                <span class="emoji-party" style="animation-delay: 0.6s;">🌟</span>
-                <span class="emoji-party" style="animation-delay: 0.8s;">💫</span>
             </div>
             
             <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
@@ -348,6 +293,14 @@
                  <p class="text-lg md:text-xl text-black leading-relaxed font-medium">
                     💰 Chúc em đường dài lương tháng nghìn đô em nhé! 💰
                 </p>
+                
+                <div class="flex flex-wrap justify-center gap-4 text-4xl">
+                    <span class="floating" style="animation-delay: 0s;">🎊</span>
+                    <span class="floating" style="animation-delay: 0.5s;">🎉</span>
+                    <span class="floating" style="animation-delay: 1s;">🥳</span>
+                    <span class="floating" style="animation-delay: 1.5s;">🌟</span>
+                    <span class="floating" style="animation-delay: 2s;">💫</span>
+                </div>
             </div>
         </div>
 
@@ -358,47 +311,11 @@
                      class="w-full max-w-2xl rounded-2xl shadow-2xl hover:scale-105 transition-all duration-500">
             </div>
         </div>
+
+        <!-- Bottom Section -->
     </div>
 
     <script>
-        // Rose petals system
-        function createRosePetals() {
-            const rosePetalColors = ['🌹', '🌺', '🌸', '💐', '🏵️'];
-            
-            setInterval(() => {
-                const petal = document.createElement('div');
-                petal.classList.add('rose-petal');
-                petal.innerHTML = rosePetalColors[Math.floor(Math.random() * rosePetalColors.length)];
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDuration = (Math.random() * 3 + 6) + 's';
-                petal.style.animationDelay = Math.random() * 2 + 's';
-                document.body.appendChild(petal);
-                
-                setTimeout(() => {
-                    petal.remove();
-                }, 10000);
-            }, 200);
-        }
-
-        // Colorful hearts rain system
-        function createColorfulHeartsRain() {
-            const heartColors = ['❤️', '🧡', '💛', '💚', '💙', '💜', '🤍', '🖤', '💖', '💕', '💗', '💓', '💝', '💘', '💟'];
-            
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('heart-rain');
-                heart.innerHTML = heartColors[Math.floor(Math.random() * heartColors.length)];
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                heart.style.animationDelay = Math.random() * 1 + 's';
-                document.body.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 5000);
-            }, 100);
-        }
-
         // Particle system
         function createParticles() {
             const particleContainer = document.getElementById('particles');
@@ -417,17 +334,34 @@
             }, 300);
         }
 
+        // Heart rain system
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                heart.style.animationDelay = Math.random() + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 200);
+        }
+
         // Enhanced fireworks
-        const canvas = document.getElementById('fireworks-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const fireworksCanvas = document.getElementById('fireworks-canvas');
+        const fireworksCtx = fireworksCanvas.getContext('2d');
+        fireworksCanvas.width = window.innerWidth;
+        fireworksCanvas.height = window.innerHeight;
         
         let fireworks = [];
-        let particles = [];
+        let fireworkParticles = [];
 
         // Firework colors
-        const colors = ['#ff0066', '#ff6600', '#ffaa00', '#66ff00', '#0066ff', '#6600ff', '#ff0066'];
+        const fireworkColors = ['#0891b2', '#0d9488', '#0284c7', '#06b6d4', '#14b8a6'];
 
         function Firework(sx, sy, tx, ty) {
             this.x = sx;
@@ -450,7 +384,7 @@
             this.acceleration = 1.05;
             this.brightness = Math.random() * 50 + 50;
             this.targetRadius = 1;
-            this.hue = colors[Math.floor(Math.random() * colors.length)];
+            this.hue = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
         }
 
         Firework.prototype.update = function(index) {
@@ -474,21 +408,21 @@
         };
 
         Firework.prototype.draw = function() {
-            ctx.beginPath();
-            ctx.moveTo(
+            fireworksCtx.beginPath();
+            fireworksCtx.moveTo(
                 this.coordinates[this.coordinates.length - 1][0], 
                 this.coordinates[this.coordinates.length - 1][1]
             );
-            ctx.lineTo(this.x, this.y);
-            ctx.strokeStyle = this.hue;
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            fireworksCtx.lineTo(this.x, this.y);
+            fireworksCtx.strokeStyle = this.hue;
+            fireworksCtx.lineWidth = 2;
+            fireworksCtx.stroke();
             
             // Add glow effect
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-            ctx.fillStyle = this.hue;
-            ctx.fill();
+            fireworksCtx.beginPath();
+            fireworksCtx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            fireworksCtx.fillStyle = this.hue;
+            fireworksCtx.fill();
         };
 
         function Particle(x, y, hue) {
@@ -522,45 +456,156 @@
             this.alpha -= this.decay;
             
             if (this.alpha <= this.decay) {
-                particles.splice(index, 1);
+                fireworkParticles.splice(index, 1);
             }
         };
 
         Particle.prototype.draw = function() {
-            ctx.beginPath();
-            ctx.moveTo(
+            fireworksCtx.beginPath();
+            fireworksCtx.moveTo(
                 this.coordinates[this.coordinates.length - 1][0], 
                 this.coordinates[this.coordinates.length - 1][1]
             );
-            ctx.lineTo(this.x, this.y);
-            ctx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            fireworksCtx.lineTo(this.x, this.y);
+            fireworksCtx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
+            fireworksCtx.lineWidth = 2;
+            fireworksCtx.stroke();
         };
 
         function createParticleExplosion(x, y, hue) {
             let particleCount = window.innerWidth <= 640 ? 60 : 120;
             while (particleCount--) {
-                particles.push(new Particle(x, y, hue));
+                fireworkParticles.push(new Particle(x, y, hue));
             }
         }
 
         function launchFirework() {
             fireworks.push(new Firework(
-                Math.random() * canvas.width,
-                canvas.height,
-                Math.random() * canvas.width,
-                Math.random() * canvas.height / 2
+                Math.random() * fireworksCanvas.width,
+                fireworksCanvas.height,
+                Math.random() * fireworksCanvas.width,
+                Math.random() * fireworksCanvas.height / 2
             ));
+        }
+
+        // Petal rain system
+        const petalCanvas = document.getElementById('petal-canvas');
+        const petalCtx = petalCanvas.getContext('2d');
+        petalCanvas.width = window.innerWidth;
+        petalCanvas.height = window.innerHeight;
+
+        let petals = [];
+        let targetPoints = [];
+        let isFormingText = false;
+
+        function Petal() {
+            this.x = Math.random() * petalCanvas.width;
+            this.y = -10;
+            this.vx = (Math.random() - 0.5) * 4;
+            this.vy = Math.random() * 3 + 2;
+            this.size = Math.random() * 10 + 5;
+            this.angle = Math.random() * Math.PI * 2;
+            this.angularVelocity = (Math.random() - 0.5) * 0.1;
+            this.color = `hsl(${Math.random() * 30 + 340}, 70%, 60%)`; // Pink/red hues for rose petals
+            this.target = null;
+        }
+
+        Petal.prototype.update = function() {
+            if (this.target && isFormingText) {
+                const dx = this.target.x - this.x;
+                const dy = this.target.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const speed = 2;
+                if (dist > 5) {
+                    this.vx = (dx / dist) * speed;
+                    this.vy = (dy / dist) * speed;
+                } else {
+                    this.vx = 0;
+                    this.vy = 0;
+                }
+            } else {
+                this.vy += 0.05; // Gravity
+            }
+            this.x += this.vx;
+            this.y += this.vy;
+            this.angle += this.angularVelocity;
+
+            if (this.y > petalCanvas.height && !this.target) {
+                this.y = -10;
+                this.x = Math.random() * petalCanvas.width;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = Math.random() * 3 + 2;
+            }
+        };
+
+        Petal.prototype.draw = function() {
+            petalCtx.save();
+            petalCtx.translate(this.x, this.y);
+            petalCtx.rotate(this.angle);
+            petalCtx.beginPath();
+            petalCtx.moveTo(0, -this.size);
+            petalCtx.quadraticCurveTo(this.size / 2, 0, 0, this.size);
+            petalCtx.quadraticCurveTo(-this.size / 2, 0, 0, -this.size);
+            petalCtx.fillStyle = this.color;
+            petalCtx.fill();
+            petalCtx.restore();
+        };
+
+        function createTargetPoints() {
+            const text = "NGUYỄN TRẦN TRÚC LINH";
+            const fontSize = window.innerWidth <= 640 ? 40 : 60;
+            petalCtx.font = `bold ${fontSize}px Inter`;
+            petalCtx.textAlign = 'center';
+            const textWidth = petalCtx.measureText(text).width;
+            const xOffset = (petalCanvas.width - textWidth) / 2;
+            const yOffset = window.innerHeight * 0.3; // Position text around h2 area
+
+            targetPoints = [];
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const charX = xOffset + petalCtx.measureText(text.substring(0, i)).width + petalCtx.measureText(char).width / 2;
+                const charPoints = [];
+                for (let x = charX - petalCtx.measureText(char).width / 2; x < charX + petalCtx.measureText(char).width / 2; x += 5) {
+                    for (let y = yOffset - fontSize / 2; y < yOffset + fontSize / 2; y += 5) {
+                        if (petalCtx.isPointInPath(new Path2D(petalCtx.fillText(char, charX, yOffset)), x, y)) {
+                            charPoints.push({ x, y });
+                        }
+                    }
+                }
+                targetPoints.push(...charPoints);
+            }
+        }
+
+        function createPetals() {
+            for (let i = 0; i < 200; i++) {
+                petals.push(new Petal());
+            }
+        }
+
+        function assignTargets() {
+            isFormingText = true;
+            petals.forEach((petal, i) => {
+                if (targetPoints[i]) {
+                    petal.target = targetPoints[i];
+                }
+            });
+        }
+
+        function drawPetals() {
+            petalCtx.clearRect(0, 0, petalCanvas.width, petalCanvas.height);
+            petals.forEach(petal => {
+                petal.update();
+                petal.draw();
+            });
         }
 
         function loop() {
             requestAnimationFrame(loop);
             
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'lighter';
+            fireworksCtx.globalCompositeOperation = 'destination-out';
+            fireworksCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            fireworksCtx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+            fireworksCtx.globalCompositeOperation = 'lighter';
             
             // Update and draw fireworks
             for (let i = fireworks.length - 1; i >= 0; i--) {
@@ -569,15 +614,18 @@
             }
             
             // Update and draw particles
-            for (let j = particles.length - 1; j >= 0; j--) {
-                particles[j].draw();
-                particles[j].update(j);
+            for (let j = fireworkParticles.length - 1; j >= 0; j--) {
+                fireworkParticles[j].draw();
+                fireworkParticles[j].update(j);
             }
+
+            // Update and draw petals
+            drawPetals();
         }
 
         // Create confetti
         function createConfetti() {
-            const colors = ['#ff0066', '#ff6600', '#ffaa00', '#66ff00', '#0066ff', '#6600ff'];
+            const colors = ['#0891b2', '#0d9488', '#0284c7'];
             
             setInterval(() => {
                 const confetti = document.createElement('div');
@@ -598,25 +646,29 @@
         window.addEventListener('load', () => {
             createParticles();
             createConfetti();
-            createRosePetals();
-            createColorfulHeartsRain();
+            createHearts();
+            createPetals();
+            createTargetPoints();
+            setTimeout(assignTargets, 5000); // Start forming text after 5 seconds
             loop();
             
-            // Launch fireworks less frequently on mobile
             const fireworkInterval = window.innerWidth <= 640 ? 600 : 300;
             setInterval(launchFirework, fireworkInterval);
         });
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            fireworksCanvas.width = window.innerWidth;
+            fireworksCanvas.height = window.innerHeight;
+            petalCanvas.width = window.innerWidth;
+            petalCanvas.height = window.innerHeight;
+            createTargetPoints();
         });
 
         // Add click effect
         document.addEventListener('click', (e) => {
             fireworks.push(new Firework(
-                Math.random() * canvas.width,
-                canvas.height,
+                Math.random() * fireworksCanvas.width,
+                fireworksCanvas.height,
                 e.clientX,
                 e.clientY
             ));
