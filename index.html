@@ -511,16 +511,18 @@
                 if (dist > 5) {
                     this.vx = (dx / dist) * speed;
                     this.vy = (dy / dist) * speed;
+                    this.angle += this.angularVelocity; // Continue rotating while moving
                 } else {
                     this.vx = 0;
                     this.vy = 0;
+                    this.angularVelocity = 0; // Stop rotating when at target
                 }
             } else {
                 this.vy += 0.05; // Gravity
+                this.angle += this.angularVelocity;
             }
             this.x += this.vx;
             this.y += this.vy;
-            this.angle += this.angularVelocity;
 
             if (this.y > petalCanvas.height && !this.target) {
                 this.y = -10;
