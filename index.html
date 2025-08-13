@@ -156,7 +156,7 @@
 
         .modern-btn:hover {
             transform: translateY(-2px);
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
         /* Fireworks container */
@@ -167,17 +167,6 @@
             width: 100%;
             height: 100%;
             z-index: 2;
-            pointer-events: none;
-        }
-
-        /* Petal canvas */
-        #petal-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
             pointer-events: none;
         }
 
@@ -258,9 +247,6 @@
     <!-- Fireworks canvas -->
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Petal canvas -->
-    <canvas id="petal-canvas"></canvas>
-
     <!-- Main content -->
     <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
         <!-- Header Section -->
@@ -271,7 +257,13 @@
                 </h1>
             </div>
             
-            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow ">
+            <div class="bounce">
+                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg">
+                    NGUYỄN TRẦN TRÚC LINH
+                </h2>
+            </div>
+            
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
                 <p class="text-xl md:text-2xl font-medium text-black">
                      🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
@@ -305,6 +297,8 @@
                      class="w-full max-w-2xl rounded-2xl shadow-2xl hover:scale-105 transition-all duration-500">
             </div>
         </div>
+
+        <!-- Bottom Section -->
     </div>
 
     <script>
@@ -344,16 +338,16 @@
         }
 
         // Enhanced fireworks
-        const fireworksCanvas = document.getElementById('fireworks-canvas');
-        const fireworksCtx = fireworksCanvas.getContext('2d');
-        fireworksCanvas.width = window.innerWidth;
-        fireworksCanvas.height = window.innerHeight;
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         
         let fireworks = [];
-        let fireworkParticles = [];
+        let particles = [];
 
         // Firework colors
-        const fireworkColors = ['#0891b2', '#0d9488', '#0284c7', '#06b6d4', '#14b8a6'];
+        const colors = ['#0891b2', '#0d9488', '#0284c7', '#06b6d4', '#14b8a6'];
 
         function Firework(sx, sy, tx, ty) {
             this.x = sx;
@@ -376,7 +370,7 @@
             this.acceleration = 1.05;
             this.brightness = Math.random() * 50 + 50;
             this.targetRadius = 1;
-            this.hue = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+            this.hue = colors[Math.floor(Math.random() * colors.length)];
         }
 
         Firework.prototype.update = function(index) {
@@ -400,21 +394,21 @@
         };
 
         Firework.prototype.draw = function() {
-            fireworksCtx.beginPath();
-            fireworksCtx.moveTo(
+            ctx.beginPath();
+            ctx.moveTo(
                 this.coordinates[this.coordinates.length - 1][0], 
                 this.coordinates[this.coordinates.length - 1][1]
             );
-            fireworksCtx.lineTo(this.x, this.y);
-            fireworksCtx.strokeStyle = this.hue;
-            fireworksCtx.lineWidth = 2;
-            fireworksCtx.stroke();
+            ctx.lineTo(this.x, this.y);
+            ctx.strokeStyle = this.hue;
+            ctx.lineWidth = 2;
+            ctx.stroke();
             
             // Add glow effect
-            fireworksCtx.beginPath();
-            fireworksCtx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-            fireworksCtx.fillStyle = this.hue;
-            fireworksCtx.fill();
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = this.hue;
+            ctx.fill();
         };
 
         function Particle(x, y, hue) {
@@ -448,169 +442,46 @@
             this.alpha -= this.decay;
             
             if (this.alpha <= this.decay) {
-                fireworkParticles.splice(index, 1);
+                particles.splice(index, 1);
             }
         };
 
         Particle.prototype.draw = function() {
-            fireworksCtx.beginPath();
-            fireworksCtx.moveTo(
+            ctx.beginPath();
+            ctx.moveTo(
                 this.coordinates[this.coordinates.length - 1][0], 
                 this.coordinates[this.coordinates.length - 1][1]
             );
-            fireworksCtx.lineTo(this.x, this.y);
-            fireworksCtx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
-            fireworksCtx.lineWidth = 2;
-            fireworksCtx.stroke();
+            ctx.lineTo(this.x, this.y);
+            ctx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
+            ctx.lineWidth = 2;
+            ctx.stroke();
         };
 
         function createParticleExplosion(x, y, hue) {
+            // Reduce particle count on mobile for better performance
             let particleCount = window.innerWidth <= 640 ? 60 : 120;
             while (particleCount--) {
-                fireworkParticles.push(new Particle(x, y, hue));
+                particles.push(new Particle(x, y, hue));
             }
         }
 
         function launchFirework() {
             fireworks.push(new Firework(
-                Math.random() * fireworksCanvas.width,
-                fireworksCanvas.height,
-                Math.random() * fireworksCanvas.width,
-                Math.random() * fireworksCanvas.height / 2
+                Math.random() * canvas.width,
+                canvas.height,
+                Math.random() * canvas.width,
+                Math.random() * canvas.height / 2
             ));
-        }
-
-        // Petal rain system
-        const petalCanvas = document.getElementById('petal-canvas');
-        const petalCtx = petalCanvas.getContext('2d');
-        petalCanvas.width = window.innerWidth;
-        petalCanvas.height = window.innerHeight;
-
-        let petals = [];
-        let targetPoints = [];
-        let isFormingText = false;
-
-        function Petal() {
-            this.x = Math.random() * petalCanvas.width;
-            this.y = -10;
-            this.vx = (Math.random() - 0.5) * 4;
-            this.vy = Math.random() * 3 + 2;
-            this.size = Math.random() * 8 + 4; // Smaller petals for clarity
-            this.angle = Math.random() * Math.PI * 2;
-            this.angularVelocity = (Math.random() - 0.5) * 0.1;
-            this.color = `hsl(${Math.random() * 30 + 340}, 70%, 60%)`; // Pink/red hues for rose petals
-            this.target = null;
-        }
-
-        Petal.prototype.update = function() {
-            if (this.target && isFormingText) {
-                const dx = this.target.x - this.x;
-                const dy = this.target.y - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const speed = 2;
-                if (dist > 5) {
-                    this.vx = (dx / dist) * speed;
-                    this.vy = (dy / dist) * speed;
-                    this.angle += this.angularVelocity; // Rotate while moving
-                } else {
-                    this.vx = 0;
-                    this.vy = 0;
-                    this.angularVelocity = 0; // Stop rotating when at target
-                }
-            } else {
-                this.vy += 0.05; // Gravity
-                this.angle += this.angularVelocity;
-            }
-            this.x += this.vx;
-            this.y += this.vy;
-
-            if (this.y > petalCanvas.height && !this.target) {
-                this.y = -10;
-                this.x = Math.random() * petalCanvas.width;
-                this.vx = (Math.random() - 0.5) * 4;
-                this.vy = Math.random() * 3 + 2;
-            }
-        };
-
-        Petal.prototype.draw = function() {
-            petalCtx.save();
-            petalCtx.translate(this.x, this.y);
-            petalCtx.rotate(this.angle);
-            petalCtx.beginPath();
-            petalCtx.moveTo(0, -this.size);
-            petalCtx.quadraticCurveTo(this.size / 2, 0, 0, this.size);
-            petalCtx.quadraticCurveTo(-this.size / 2, 0, 0, -this.size);
-            petalCtx.fillStyle = this.color;
-            petalCtx.fill();
-            petalCtx.restore();
-        };
-
-        function createTargetPoints() {
-            const text = "NGUYỄN TRẦN TRÚC LINH";
-            const fontSize = window.innerWidth <= 640 ? 40 : 60;
-            petalCtx.font = `bold ${fontSize}px Inter`;
-            petalCtx.textAlign = 'center';
-            const textWidth = petalCtx.measureText(text).width;
-            const xOffset = (petalCanvas.width - textWidth) / 2;
-            const yOffset = window.innerHeight * 0.25 + (window.innerWidth <= 640 ? 80 : 120); // Position below h1
-
-            // Create temporary canvas to draw text and get pixel data
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = petalCanvas.width;
-            tempCanvas.height = petalCanvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
-            tempCtx.font = `bold ${fontSize}px Inter`;
-            tempCtx.textAlign = 'center';
-            tempCtx.fillStyle = '#fff';
-            tempCtx.fillText(text, petalCanvas.width / 2, yOffset);
-
-            const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-            const data = imageData.data;
-            targetPoints = [];
-
-            // Collect points where text is drawn (white pixels)
-            for (let y = 0; y < tempCanvas.height; y += 3) { // Reduced sampling interval
-                for (let x = 0; x < tempCanvas.width; x += 3) {
-                    const index = (y * tempCanvas.width + x) * 4;
-                    if (data[index + 3] > 0) { // Check alpha channel
-                        targetPoints.push({ x, y });
-                    }
-                }
-            }
-        }
-
-        function createPetals() {
-            for (let i = 0; i < 1000; i++) { // Increased number of petals
-                petals.push(new Petal());
-            }
-        }
-
-        function assignTargets() {
-            isFormingText = true;
-            petals.forEach((petal, i) => {
-                if (targetPoints[i]) {
-                    petal.target = targetPoints[i];
-                } else {
-                    petal.target = null; // Excess petals continue falling
-                }
-            });
-        }
-
-        function drawPetals() {
-            petalCtx.clearRect(0, 0, petalCanvas.width, petalCanvas.height);
-            petals.forEach(petal => {
-                petal.update();
-                petal.draw();
-            });
         }
 
         function loop() {
             requestAnimationFrame(loop);
             
-            fireworksCtx.globalCompositeOperation = 'destination-out';
-            fireworksCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            fireworksCtx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-            fireworksCtx.globalCompositeOperation = 'lighter';
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'lighter';
             
             // Update and draw fireworks
             for (let i = fireworks.length - 1; i >= 0; i--) {
@@ -619,13 +490,10 @@
             }
             
             // Update and draw particles
-            for (let j = fireworkParticles.length - 1; j >= 0; j--) {
-                fireworkParticles[j].draw();
-                fireworkParticles[j].update(j);
+            for (let j = particles.length - 1; j >= 0; j--) {
+                particles[j].draw();
+                particles[j].update(j);
             }
-
-            // Update and draw petals
-            drawPetals();
         }
 
         // Create confetti
@@ -652,28 +520,23 @@
             createParticles();
             createConfetti();
             createHearts();
-            createPetals();
-            createTargetPoints();
-            setTimeout(assignTargets, 5000); // Start forming text after 5 seconds
             loop();
             
+            // Launch fireworks less frequently on mobile
             const fireworkInterval = window.innerWidth <= 640 ? 600 : 300;
             setInterval(launchFirework, fireworkInterval);
         });
 
         window.addEventListener('resize', () => {
-            fireworksCanvas.width = window.innerWidth;
-            fireworksCanvas.height = window.innerHeight;
-            petalCanvas.width = window.innerWidth;
-            petalCanvas.height = window.innerHeight;
-            createTargetPoints();
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
 
         // Add click effect
         document.addEventListener('click', (e) => {
             fireworks.push(new Firework(
-                Math.random() * fireworksCanvas.width,
-                fireworksCanvas.height,
+                Math.random() * canvas.width,
+                canvas.height,
                 e.clientX,
                 e.clientY
             ));
@@ -681,4 +544,3 @@
     </script>
 </body>
 </html>
-
