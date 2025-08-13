@@ -3,591 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng Tốt Nghiệp</title>
+    <title>Chúc Mừng Tốt Nghiệp, [Tên Bạn Thân]!</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* --- Cài đặt chung & Font chữ --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 
         body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 100%);
+            color: #004d40; /* Màu chữ xanh đậm */
             overflow-x: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            max-width: 800px;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent, 
-                rgba(255, 107, 107, 0.3), 
-                rgba(78, 205, 196, 0.3), 
-                rgba(69, 183, 209, 0.3), 
-                transparent);
-            animation: shimmer 2s linear infinite;
-        }
-
-        .container::after {
-            content: '';
-            position: absolute;
+        /* --- Lớp phủ hiệu ứng --- */
+        #fireworks-canvas {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 40%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(254, 202, 87, 0.1) 0%, transparent 50%);
-            animation: colorPulse 4s ease-in-out infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        /* --- Hiệu ứng mưa (thay cho tim) --- */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: fall 10s linear infinite;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
         }
 
-        @keyframes colorPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                top: 110%;
+                opacity: 0.2;
+                transform: translateX(50px);
+            }
         }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
+        
+        /* --- Nội dung chính --- */
         .content {
             position: relative;
-            z-index: 2;
-        }
-
-        .graduation-cap {
-            font-size: 4rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #feca57);
-            background-size: 400% 400%;
-            animation: bounce 2s infinite, gradientText 3s ease infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
-        }
-
-        @keyframes gradientText {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            z-index: 3;
+            padding: 50px 20px;
         }
 
         h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-            background-size: 400% 400%;
-            animation: gradientText 4s ease infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            font-size: 3.2em;
+            font-weight: 700;
+            color: #006064; /* Xanh đậm hơn cho tiêu đề */
+            margin-bottom: 15px;
+            animation: fadeInDown 1.5s;
+        }
+
+        p.subtitle {
+            font-size: 1.4em;
             font-weight: 300;
-            letter-spacing: 1px;
-            text-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-
-        .image-container {
-            width: 200px;
-            height: 200px;
-            margin: 30px auto;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #667eea;
-            position: relative;
-            background: #f7fafc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-        }
-
-        .image-container:hover {
-            transform: scale(1.05);
-        }
-
-        .image-placeholder {
-            color: #a0aec0;
-            font-size: 1rem;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            margin-bottom: 40px;
+            color: #00796b;
+            animation: fadeInUp 1.5s;
         }
 
         .message {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #4a5568;
-            margin: 30px 0;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 35px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            line-height: 1.7;
+            font-weight: 400;
+            animation: fadeIn 2s;
+            box-shadow: 0 8px 32px 0 rgba(0, 77, 64, 0.1);
+        }
+        
+        /* --- Khu vực hình ảnh duy nhất --- */
+        h2 {
+            font-size: 2em;
+            color: #006064;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            font-weight: 500;
+            animation: fadeIn 2s;
         }
 
-        .highlight {
-            color: #667eea;
-            font-weight: 600;
+        .single-image-container {
+            max-width: 800px; /* Tăng độ rộng tối đa */
+            margin: 0 auto;
+            animation: zoomIn 1.5s;
         }
 
-        .decorative-line {
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #feca57, #ff9ff3);
-            background-size: 400% 400%;
-            animation: gradientText 3s ease infinite;
-            margin: 20px auto;
-            border-radius: 2px;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        .single-image-container img {
+            width: 100%;
+            max-width: 600px; /* Ảnh lớn hơn */
+            height: auto;
+            border-radius: 15px;
+            border: 5px solid #ffffff;
+            box-shadow: 0 10px 40px rgba(0, 105, 92, 0.25);
+            transition: transform 0.4s ease;
         }
 
-        .stars {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+        .single-image-container img:hover {
+            transform: scale(1.03);
         }
 
-        .star {
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, #ffd700, #ffed4a, #f39c12);
-            background-size: 200% 200%;
-            animation: twinkle 1.5s ease-in-out infinite alternate, gradientText 2s ease infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 10px #ffd700);
+        footer {
+            margin-top: 70px;
+            padding-bottom: 30px;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #006064;
+            animation: fadeInUp 2s;
         }
 
-        .star:nth-child(2) { animation-delay: 0.2s; }
-        .star:nth-child(3) { animation-delay: 0.4s; }
-        .star:nth-child(4) { animation-delay: 0.6s; }
-        .star:nth-child(5) { animation-delay: 0.8s; }
-
-        @keyframes twinkle {
-            from { opacity: 0.4; }
-            to { opacity: 1; }
-        }
-
-        .footer {
-            margin-top: 40px;
-            font-style: italic;
-            color: #718096;
-            font-size: 0.9rem;
-        }
-
-        .upload-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            transition: transform 0.2s ease;
-        }
-
-        .upload-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .hidden {
-            display: none;
-        }
-
+        /* --- Animation cho nội dung --- */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                width: 95%;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .graduation-cap {
-                font-size: 3rem;
-            }
-            
-            .image-container {
-                width: 150px;
-                height: 150px;
-            }
+            h1 { font-size: 2.2em; }
+            p.subtitle { font-size: 1.1em; }
+            h2 { font-size: 1.8em; }
+            .message { padding: 25px; }
+            .single-image-container img { max-width: 90%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="graduation-cap">🎓</div>
-            
-            <h1>Chúc Mừng Tốt Nghiệp!</h1>
-            <div class="subtitle">Congratulations on Your Graduation</div>
-            
-            <div class="decorative-line"></div>
-            
-            <div class="image-container" id="imageContainer">
-                <div class="image-placeholder">
-                    Nhấp để thêm ảnh của bạn thân<br>
-                    <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                        📷 Chọn ảnh
-                    </button>
-                </div>
-            </div>
-            
-            <input type="file" id="imageInput" accept="image/*" class="hidden">
-            
-            <div class="stars">
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-            </div>
-            
-            <div class="message">
-                Hôm nay là một ngày <span class="highlight">đặc biệt</span> đánh dấu sự kết thúc của một hành trình học tập đầy ý nghĩa và là khởi đầu cho những <span class="highlight">cơ hội mới</span> trong tương lai.
+
+    <!-- Lớp phủ cho các hiệu ứng -->
+    <div id="sparkle-container"></div>
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- Nội dung trang web -->
+    <div class="content">
+
+        <!-- Thay [Tên Bạn Thân] thành tên của bạn ấy -->
+        <h1>CHÚC MỪNG TỐT NGHIỆP, [Tên Bạn Thân]!</h1>
+        <p class="subtitle">Một chương mới tuyệt vời đang chờ cậu ở phía trước.</p>
+
+        <div class="message">
+            <!-- Thay đổi lời chúc cảm động của bạn ở đây -->
+            <p>
+                Khoảnh khắc cậu mặc chiếc áo cử nhân và cầm trên tay tấm bằng tốt nghiệp thật sự rất tuyệt vời. Tớ cảm thấy vô cùng tự hào và hạnh phúc cho cậu. Hành trình vừa qua tuy có vất vả nhưng cậu đã vượt qua một cách xuất sắc.
                 <br><br>
-                Chúc bạn sẽ luôn tự tin, <span class="highlight">thành công</span> và hạnh phúc trên con đường phía trước. Tất cả những kiến thức và kỹ năng bạn đã học được sẽ là hành trang quý báu cho những thử thách mới.
-                <br><br>
-                <span class="highlight">Chúc mừng người bạn thân yêu! 🎉</span>
-            </div>
-            
-            <div class="decorative-line"></div>
-            
-            <div class="footer">
-                "Giáo dục là vũ khí mạnh nhất mà bạn có thể sử dụng để thay đổi thế giới"<br>
-                - Nelson Mandela
-            </div>
+                Hãy cứ tự tin và dũng cảm theo đuổi những ước mơ của mình nhé. Dù tương lai có ra sao, hãy nhớ rằng cậu luôn có tớ ở bên cạnh.
+            </p>
         </div>
+
+        <h2>Khoảnh Khắc Của Chúng Ta</h2>
+        <div class="single-image-container">
+            <!-- Đặt ảnh vào thư mục 'images' và gọi tên ở đây -->
+            <!-- CHỈ MỘT ẢNH DUY NHẤT VỚI TÊN 'ky-niem.jpg' -->
+            <img src="images/ky-niem.jpg" alt="Kỷ niệm của chúng ta">
+        </div>
+
+        <footer>
+             <!-- Thay [Tên Của Bạn] thành tên của bạn -->
+            <p>Thương mến,<br>[Tên Của Bạn]</p>
+        </footer>
+
     </div>
 
     <script>
-        document.getElementById('imageInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imageContainer = document.getElementById('imageContainer');
-                    imageContainer.innerHTML = `<img src="${e.target.result}" alt="Ảnh tốt nghiệp">`;
-                }
-                reader.readAsDataURL(file);
+        // --- SCRIPT CHO HIỆU ỨNG ---
+
+        // 1. Mưa lấp lánh
+        const sparkleContainer = document.getElementById('sparkle-container');
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.animationDuration = Math.random() * 5 + 5 + 's';
+            sparkleContainer.appendChild(sparkle);
+            setTimeout(() => { sparkle.remove(); }, 10000);
+        }
+        setInterval(createSparkle, 500);
+
+        // 2. Pháo hoa
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let fireworks = [];
+        let particles = [];
+
+        function Firework(sx, sy, tx, ty) {
+            this.x = sx; this.y = sy;
+            this.sx = sx; this.sy = sy;
+            this.tx = tx; this.ty = ty;
+            this.distanceToTarget = Math.sqrt(Math.pow(tx - sx, 2) + Math.pow(ty - sy, 2));
+            this.distanceTraveled = 0;
+            this.coordinates = [];
+            this.coordinateCount = 3;
+            while (this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+            this.angle = Math.atan2(ty - sy, tx - sx);
+            this.speed = 2;
+            this.acceleration = 1.05;
+            // Thay đổi màu sắc pháo hoa sang tone xanh/trắng
+            this.brightness = Math.random() * 30 + 60; // Sáng hơn
+            this.hue = Math.random() * 60 + 180; // Hues trong khoảng Cyan đến Blue
+        }
+
+        Firework.prototype.update = function(index) {
+            this.coordinates.pop();
+            this.coordinates.unshift([this.x, this.y]);
+            this.speed *= this.acceleration;
+            let vx = Math.cos(this.angle) * this.speed;
+            let vy = Math.sin(this.angle) * this.speed;
+            this.distanceTraveled = Math.sqrt(Math.pow(this.x - this.sx, 2) + Math.pow(this.y - this.sy, 2));
+            if (this.distanceTraveled >= this.distanceToTarget) {
+                createParticles(this.tx, this.ty, this.hue);
+                fireworks.splice(index, 1);
+            } else {
+                this.x += vx;
+                this.y += vy;
             }
+        };
+
+        Firework.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.lineTo(this.x, this.y);
+            // Đường đạn của pháo hoa
+            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, 0.5)';
+            ctx.stroke();
+        };
+
+        function Particle(x, y, hue) {
+            this.x = x; this.y = y;
+            this.coordinates = [];
+            this.coordinateCount = 5;
+            while (this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+            this.angle = Math.random() * Math.PI * 2;
+            this.speed = Math.random() * 10 + 1;
+            this.friction = 0.95;
+            this.gravity = 1.2;
+            // Hạt nổ cũng theo tone màu xanh/trắng
+            this.hue = Math.random() * 40 + (hue - 20);
+            this.brightness = Math.random() * 40 + 60;
+            this.alpha = 1;
+            this.decay = Math.random() * 0.03 + 0.015;
+        }
+
+        Particle.prototype.update = function(index) {
+            this.coordinates.pop();
+            this.coordinates.unshift([this.x, this.y]);
+            this.speed *= this.friction;
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed + this.gravity;
+            this.alpha -= this.decay;
+            if (this.alpha <= this.decay) { particles.splice(index, 1); }
+        };
+
+        Particle.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.lineTo(this.x, this.y);
+            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, ' + this.alpha + ')';
+            ctx.stroke();
+        };
+
+        function createParticles(x, y, hue) {
+            let particleCount = 50; // Tăng số lượng hạt cho đẹp hơn
+            while (particleCount--) {
+                particles.push(new Particle(x, y, hue));
+            }
+        }
+        
+        function launchFromBottom() {
+            const startX = Math.random() * (canvas.width / 2) + (canvas.width / 4);
+            const startY = canvas.height;
+            const targetX = startX;
+            const targetY = Math.random() * (canvas.height / 2);
+            fireworks.push(new Firework(startX, startY, targetX, targetY));
+        }
+
+        function loop() {
+            requestAnimationFrame(loop);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(224, 247, 250, 0.1)'; // Làm mờ nền rất nhẹ để có vệt
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'lighter';
+            
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                fireworks[i].draw();
+                fireworks[i].update(i);
+            }
+            
+            for (let j = particles.length - 1; j >= 0; j--) {
+                particles[j].draw();
+                particles[j].update(j);
+            }
+        }
+        
+        // Tăng tần suất bắn pháo hoa
+        setInterval(launchFromBottom, 800); // Bắn một quả mỗi 0.8 giây
+        window.onload = loop;
+
+        window.addEventListener('resize', () => {
+             canvas.width = window.innerWidth;
+             canvas.height = window.innerHeight;
         });
 
-        // Hiệu ứng mưa nhiều emoji
-        function createFallingEmoji() {
-            const emojis = ['🎉', '🎊', '✨', '🌟', '💫', '🎆', '🎇', '🏆', '👏', '🥳', '🎈', '🎀', '💎', '⭐'];
-            const emoji = document.createElement('div');
-            emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.cssText = `
-                position: fixed;
-                font-size: ${Math.random() * 25 + 20}px;
-                pointer-events: none;
-                z-index: 1;
-                opacity: 0.9;
-                animation: sparkle 2s ease-in-out infinite;
-            `;
-            
-            emoji.style.left = Math.random() * window.innerWidth + 'px';
-            emoji.style.top = '-50px';
-            
-            document.body.appendChild(emoji);
-            
-            const animation = emoji.animate([
-                { 
-                    transform: 'translateY(0px) rotate(0deg) scale(1)', 
-                    opacity: 0.9 
-                },
-                { 
-                    transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 720 - 360}deg) scale(0.5)`, 
-                    opacity: 0 
-                }
-            ], {
-                duration: Math.random() * 4000 + 3000,
-                easing: 'ease-in-out'
-            });
-            
-            animation.onfinish = () => emoji.remove();
-        }
-
-        @keyframes sparkle {
-            0%, 100% { filter: brightness(1) saturate(1); }
-            50% { filter: brightness(1.5) saturate(1.8); }
-        }
-
-        // Mưa trái tim đẹp mắt từ trên xuống
-        function createRomanticHeartRain() {
-            const hearts = ['💖', '💕', '💗', '💘', '💝', '💞', '❤️', '💓', '💟', '♥️'];
-            const heart = document.createElement('div');
-            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-            
-            const size = Math.random() * 15 + 18;
-            const opacity = Math.random() * 0.4 + 0.6;
-            const rotationSpeed = Math.random() * 4 + 2;
-            
-            heart.style.cssText = `
-                position: fixed;
-                font-size: ${size}px;
-                pointer-events: none;
-                z-index: 1;
-                opacity: ${opacity};
-                filter: drop-shadow(0 0 8px rgba(255, 182, 193, 0.8)) 
-                        drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
-                animation: heartGlow 2s ease-in-out infinite alternate;
-            `;
-            
-            heart.style.left = Math.random() * (window.innerWidth + 100) - 50 + 'px';
-            heart.style.top = '-60px';
-            
-            document.body.appendChild(heart);
-            
-            const swayAmount = Math.random() * 60 + 30;
-            const fallDuration = Math.random() * 3000 + 4000;
-            
-            const animation = heart.animate([
-                { 
-                    transform: 'translateY(0px) translateX(0px) rotate(0deg) scale(1)', 
-                    opacity: opacity,
-                    filter: 'drop-shadow(0 0 8px rgba(255, 182, 193, 0.8)) drop-shadow(0 0 15px rgba(255, 105, 180, 0.6))'
-                },
-                { 
-                    transform: `translateY(${window.innerHeight + 100}px) translateX(${Math.sin(Math.PI) * swayAmount}px) rotate(${360 * rotationSpeed}deg) scale(0.8)`, 
-                    opacity: 0,
-                    filter: 'drop-shadow(0 0 4px rgba(255, 182, 193, 0.4)) drop-shadow(0 0 8px rgba(255, 105, 180, 0.3))'
-                }
-            ], {
-                duration: fallDuration,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            });
-            
-            animation.onfinish = () => heart.remove();
-        }
-        
-        @keyframes heartGlow {
-            0% { 
-                filter: drop-shadow(0 0 8px rgba(255, 182, 193, 0.8)) 
-                        drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
-            }
-            50% {
-                filter: drop-shadow(0 0 12px rgba(255, 182, 193, 1)) 
-                        drop-shadow(0 0 25px rgba(255, 105, 180, 0.8)) 
-                        drop-shadow(0 0 35px rgba(255, 20, 147, 0.6));
-            }
-            100% { 
-                filter: drop-shadow(0 0 8px rgba(255, 182, 193, 0.8)) 
-                        drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
-            }
-        }
-
-        // Pháo hoa bắn từ dưới lên
-        function launchFireworkFromBottom() {
-            const startX = Math.random() * window.innerWidth;
-            const startY = window.innerHeight;
-            const targetX = startX + (Math.random() - 0.5) * 200;
-            const targetY = Math.random() * (window.innerHeight * 0.4) + window.innerHeight * 0.1;
-            
-            // Tạo đạn pháo bay lên
-            const rocket = document.createElement('div');
-            rocket.style.cssText = `
-                position: fixed;
-                width: 4px;
-                height: 15px;
-                background: linear-gradient(to top, #ffd700, #fff);
-                border-radius: 2px;
-                pointer-events: none;
-                z-index: 999;
-                box-shadow: 0 0 10px #ffd700;
-            `;
-            
-            rocket.style.left = startX + 'px';
-            rocket.style.top = startY + 'px';
-            document.body.appendChild(rocket);
-            
-            // Animation bay lên
-            const rocketAnimation = rocket.animate([
-                { 
-                    transform: 'translate(0, 0)',
-                    opacity: 1
-                },
-                { 
-                    transform: `translate(${targetX - startX}px, ${targetY - startY}px)`,
-                    opacity: 0.8
-                }
-            ], {
-                duration: 1500,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            });
-            
-            // Nổ pháo hoa khi đến đích
-            rocketAnimation.onfinish = () => {
-                rocket.remove();
-                explodeFirework(targetX, targetY);
-            };
-        }
-        
-        // Nổ pháo hoa tại vị trí
-        function explodeFirework(x, y) {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43', '#ee5a24', '#0abde3'];
-            const particleCount = 35;
-            
-            // Tạo vụ nổ chính
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.cssText = `
-                    position: fixed;
-                    width: 6px;
-                    height: 6px;
-                    background: ${color};
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 1000;
-                    box-shadow: 0 0 15px ${color}, 0 0 30px ${color};
-                `;
-                
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                document.body.appendChild(particle);
-                
-                const angle = (Math.PI * 2 * i) / particleCount;
-                const velocity = Math.random() * 180 + 120;
-                const deltaX = Math.cos(angle) * velocity;
-                const deltaY = Math.sin(angle) * velocity;
-                
-                const animation = particle.animate([
-                    { 
-                        transform: 'translate(0, 0) scale(1)',
-                        opacity: 1
-                    },
-                    { 
-                        transform: `translate(${deltaX}px, ${deltaY + 150}px) scale(0.3)`,
-                        opacity: 0
-                    }
-                ], {
-                    duration: 2500,
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                });
-                
-                animation.onfinish = () => particle.remove();
-            }
-            
-            // Vụ nổ thứ hai sau 300ms
-            setTimeout(() => {
-                for (let i = 0; i < 20; i++) {
-                    const particle = document.createElement('div');
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    particle.style.cssText = `
-                        position: fixed;
-                        width: 8px;
-                        height: 8px;
-                        background: ${color};
-                        border-radius: 50%;
-                        pointer-events: none;
-                        z-index: 1000;
-                        box-shadow: 0 0 20px ${color};
-                    `;
-                    
-                    particle.style.left = x + 'px';
-                    particle.style.top = y + 'px';
-                    document.body.appendChild(particle);
-                    
-                    const angle = (Math.PI * 2 * i) / 20;
-                    const velocity = Math.random() * 120 + 80;
-                    const deltaX = Math.cos(angle) * velocity;
-                    const deltaY = Math.sin(angle) * velocity;
-                    
-                    const animation = particle.animate([
-                        { 
-                            transform: 'translate(0, 0) scale(1)',
-                            opacity: 1
-                        },
-                        { 
-                            transform: `translate(${deltaX}px, ${deltaY + 100}px) scale(0)`,
-                            opacity: 0
-                        }
-                    ], {
-                        duration: 2000,
-                        easing: 'ease-out'
-                    });
-                    
-                    animation.onfinish = () => particle.remove();
-                }
-            }, 300);
-        }
-
-        // Pháo hoa liên tục bắn từ dưới lên
-        function continuousFireworks() {
-            launchFireworkFromBottom();
-            setTimeout(continuousFireworks, Math.random() * 2000 + 1200);
-        }
-
-        // Khởi động hiệu ứng siêu đẹp
-        setInterval(createRomanticHeartRain, 500);
-        setInterval(createFallingEmoji, 800);
-        
-        // Pháo hoa ban đầu - bắn từ dưới lên liên tiếp
-        setTimeout(() => {
-            for(let i = 0; i < 6; i++) {
-                setTimeout(launchFireworkFromBottom, i * 400);
-            }
-        }, 800);
-        
-        // Pháo hoa liên tục
-        setTimeout(continuousFireworks, 3000);
-
-        // Click để bắn pháo hoa từ dưới lên
-        document.addEventListener('click', function(e) {
-            if (e.target.id !== 'imageInput' && !e.target.classList.contains('upload-btn')) {
-                // Bắn 3 quả pháo hoa liên tiếp từ các vị trí khác nhau
-                setTimeout(() => launchFireworkFromBottom(), 0);
-                setTimeout(() => launchFireworkFromBottom(), 300);
-                setTimeout(() => launchFireworkFromBottom(), 600);
-            }
-        });
     </script>
 </body>
 </html>
