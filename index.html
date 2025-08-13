@@ -287,22 +287,7 @@
 
     <script>
         // Particle system
-        function createParticles() {
-            const particleContainer = document.getElementById('particles');
-            
-            setInterval(() => {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                particle.style.animationDelay = Math.random() * 2 + 's';
-                particleContainer.appendChild(particle);
-                
-                setTimeout(() => {
-                    particle.remove();
-                }, 6000);
-            }, 300);
-        }
+        
 
         // Enhanced fireworks
         const canvas = document.getElementById('fireworks-canvas');
@@ -508,3 +493,4 @@
     </script>
 </body>
 </html>
+
