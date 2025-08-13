@@ -21,7 +21,6 @@
             background: linear-gradient(to bottom, #e6f3ff, #b8e6e6);
         }
 
-        /* Glass morphism effect */
         .glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
@@ -29,7 +28,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Floating animation */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -39,12 +37,10 @@
             animation: float 3s ease-in-out infinite;
         }
 
-        /* Glow effect */
         .glow {
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-        /* Particle background */
         .particles {
             position: fixed;
             top: 0;
@@ -82,7 +78,6 @@
             }
         }
 
-        /* Heart rain */
         .heart {
             position: absolute;
             font-size: 20px;
@@ -101,14 +96,12 @@
             }
         }
 
-        /* Text gradient */
         .gradient-text {
             background: linear-gradient(45deg, #0d9488, #0891b2, #0284c7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Bouncing animation */
         @keyframes bounce {
             0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
             40%, 43% { transform: translate3d(0,-30px,0); }
@@ -120,7 +113,6 @@
             animation: bounce 2s ease infinite;
         }
 
-        /* Pulse effect */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -131,7 +123,6 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Modern button */
         .modern-btn {
             background: linear-gradient(45deg, #0891b2, #0d9488);
             transition: all 0.3s ease;
@@ -159,7 +150,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        /* Fireworks container */
         #fireworks-canvas {
             position: fixed;
             top: 0;
@@ -170,7 +160,6 @@
             pointer-events: none;
         }
 
-        /* Confetti */
         .confetti {
             position: absolute;
             width: 10px;
@@ -190,7 +179,6 @@
             }
         }
 
-        /* Loading animation */
         .loading {
             width: 4px;
             height: 4px;
@@ -204,7 +192,46 @@
             40% { transform: scale(1); }
         }
 
-        /* Responsive adjustments for mobile */
+        /* Rose petal effect */
+        .rose-petal {
+            position: absolute;
+            width: 12px;
+            height: 6px;
+            background: #ff4d4f;
+            border-radius: 50% 20% 70% 20%;
+            animation: rosePetalFall 5s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes rosePetalFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Text animation for cycling effect */
+        @keyframes textCycle {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .cycle-text {
+            animation: textCycle 3s ease-in-out infinite;
+        }
+
+        /* Colorful hearts */
+        .colorful-heart {
+            position: absolute;
+            font-size: 24px;
+            animation: heartFall 3s linear infinite;
+        }
+
         @media (max-width: 640px) {
             h1 {
                 font-size: 2.5rem !important;
@@ -230,26 +257,25 @@
             img {
                 max-width: 90vw !important;
             }
-            .heart {
+            .heart, .colorful-heart {
                 font-size: 16px !important;
             }
             .confetti {
                 width: 8px !important;
                 height: 8px !important;
             }
+            .rose-petal {
+                width: 10px !important;
+                height: 5px !important;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Particle background -->
     <div class="particles" id="particles"></div>
-    
-    <!-- Fireworks canvas -->
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Main content -->
     <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
-        <!-- Header Section -->
         <div class="text-center mb-8">
             <div class="floating">
                 <h1 class="text-6xl md:text-8xl font-black gradient-text mb-4 drop-shadow-2xl">
@@ -257,55 +283,47 @@
                 </h1>
             </div>
             
-            <div class="bounce">
-                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg">
+            <div class="bounce relative">
+                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg cycle-text">
                     NGUYỄN TRẦN TRÚC LINH
                 </h2>
+                <div class="rose-petals" id="rose-petals"></div>
             </div>
             
             <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
                 <p class="text-xl md:text-2xl font-medium text-black">
-                     🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
+                    🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 text-4xl" id="colorful-hearts">
+                <!-- Colorful hearts will be added dynamically via JavaScript -->
             </div>
         </div>
 
-        <!-- Main Card -->
         <div class="glass rounded-3xl p-8 md:p-12 max-w-4xl mx-auto glow mb-8">           
             <div class="space-y-6 text-center">
                 <p class="text-lg md:text-xl text-black leading-relaxed font-medium">
                     🚀 Mong em tìm được công việc yêu thích, gặp nhiều may mắn và thành công trên con đường sự nghiệp phía trước!
                 </p>
-                 <p class="text-lg md:text-xl text-black leading-relaxed font-medium">
+                <p class="text-lg md:text-xl text-black leading-relaxed font-medium">
                     💰 Chúc em đường dài lương tháng nghìn đô em nhé! 💰
                 </p>
-                
-                <div class="flex flex-wrap justify-center gap-4 text-4xl">
-                    <span class="floating" style="animation-delay: 0s;">🎊</span>
-                    <span class="floating" style="animation-delay: 0.5s;">🎉</span>
-                    <span class="floating" style="animation-delay: 1s;">🥳</span>
-                    <span class="floating" style="animation-delay: 1.5s;">🌟</span>
-                    <span class="floating" style="animation-delay: 2s;">💫</span>
-                </div>
             </div>
         </div>
 
-        <!-- Image Section -->
         <div class="floating">
             <div class="glass rounded-3xl p-4 glow">
                 <img src="1.png" alt="Kỷ niệm tốt nghiệp" 
                      class="w-full max-w-2xl rounded-2xl shadow-2xl hover:scale-105 transition-all duration-500">
             </div>
         </div>
-
-        <!-- Bottom Section -->
     </div>
 
     <script>
         // Particle system
         function createParticles() {
             const particleContainer = document.getElementById('particles');
-            
             setInterval(() => {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -313,7 +331,6 @@
                 particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
                 particle.style.animationDelay = Math.random() * 2 + 's';
                 particleContainer.appendChild(particle);
-                
                 setTimeout(() => {
                     particle.remove();
                 }, 6000);
@@ -330,10 +347,44 @@
                 heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
                 heart.style.animationDelay = Math.random() + 's';
                 document.body.appendChild(heart);
-                
                 setTimeout(() => {
                     heart.remove();
                 }, 5000);
+            }, 200);
+        }
+
+        // Rose petal system
+        function createRosePetals() {
+            const petalContainer = document.getElementById('rose-petals');
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('rose-petal');
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                petal.style.animationDelay = Math.random() + 's';
+                petalContainer.appendChild(petal);
+                setTimeout(() => {
+                    petal.remove();
+                }, 6000);
+            }, 150);
+        }
+
+        // Colorful heart system
+        function createColorfulHearts() {
+            const heartContainer = document.getElementById('colorful-hearts');
+            const colors = ['#ff4d4f', '#ff69b4', '#ff1493', '#db7093', '#c71585'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('colorful-heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                heart.style.animationDelay = Math.random() + 's';
+                heartContainer.appendChild(heart);
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
             }, 200);
         }
 
@@ -346,7 +397,6 @@
         let fireworks = [];
         let particles = [];
 
-        // Firework colors
         const colors = ['#0891b2', '#0d9488', '#0284c7', '#06b6d4', '#14b8a6'];
 
         function Firework(sx, sy, tx, ty) {
@@ -404,7 +454,6 @@
             ctx.lineWidth = 2;
             ctx.stroke();
             
-            // Add glow effect
             ctx.beginPath();
             ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
             ctx.fillStyle = this.hue;
@@ -459,7 +508,6 @@
         };
 
         function createParticleExplosion(x, y, hue) {
-            // Reduce particle count on mobile for better performance
             let particleCount = window.innerWidth <= 640 ? 60 : 120;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
@@ -483,23 +531,19 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'lighter';
             
-            // Update and draw fireworks
             for (let i = fireworks.length - 1; i >= 0; i--) {
                 fireworks[i].draw();
                 fireworks[i].update(i);
             }
             
-            // Update and draw particles
             for (let j = particles.length - 1; j >= 0; j--) {
                 particles[j].draw();
                 particles[j].update(j);
             }
         }
 
-        // Create confetti
         function createConfetti() {
             const colors = ['#0891b2', '#0d9488', '#0284c7'];
-            
             setInterval(() => {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
@@ -508,21 +552,20 @@
                 confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
                 confetti.style.animationDelay = Math.random() + 's';
                 document.body.appendChild(confetti);
-                
                 setTimeout(() => {
                     confetti.remove();
                 }, 4000);
             }, 150);
         }
 
-        // Initialize everything
         window.addEventListener('load', () => {
             createParticles();
             createConfetti();
             createHearts();
+            createRosePetals();
+            createColorfulHearts();
             loop();
             
-            // Launch fireworks less frequently on mobile
             const fireworkInterval = window.innerWidth <= 640 ? 600 : 300;
             setInterval(launchFirework, fireworkInterval);
         });
@@ -532,7 +575,6 @@
             canvas.height = window.innerHeight;
         });
 
-        // Add click effect
         document.addEventListener('click', (e) => {
             fireworks.push(new Firework(
                 Math.random() * canvas.width,
@@ -544,6 +586,3 @@
     </script>
 </body>
 </html>
-
-
-
