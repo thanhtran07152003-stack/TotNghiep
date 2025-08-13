@@ -271,12 +271,6 @@
                 </h1>
             </div>
             
-            <div class="bounce">
-                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg">
-                    NGUYỄN TRẦN TRÚC LINH
-                </h2>
-            </div>
-            
             <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
                 <p class="text-xl md:text-2xl font-medium text-black">
                      🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
@@ -558,7 +552,7 @@
             petalCtx.textAlign = 'center';
             const textWidth = petalCtx.measureText(text).width;
             const xOffset = (petalCanvas.width - textWidth) / 2;
-            const yOffset = window.innerHeight * 0.3; // Position text around h2 area
+            const yOffset = window.innerHeight * 0.25; // Adjusted to position where h2 was
 
             targetPoints = [];
             for (let i = 0; i < text.length; i++) {
@@ -567,7 +561,9 @@
                 const charPoints = [];
                 for (let x = charX - petalCtx.measureText(char).width / 2; x < charX + petalCtx.measureText(char).width / 2; x += 5) {
                     for (let y = yOffset - fontSize / 2; y < yOffset + fontSize / 2; y += 5) {
-                        if (petalCtx.isPointInPath(new Path2D(petalCtx.fillText(char, charX, yOffset)), x, y)) {
+                        const path = new Path2D();
+                        path.addPath(new Path2D(petalCtx.fillText(char, charX, yOffset)));
+                        if (petalCtx.isPointInPath(path, x, y)) {
                             charPoints.push({ x, y });
                         }
                     }
