@@ -3,42 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng Tốt Nghiệp Linh!</title>
+    <title>Chúc Mừng Tốt Nghiệp Linh! 🎓</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
         }
 
-        /* Hiệu ứng mưa trái tim */
-        .heart {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="pink"%3E%3Cpath d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/%3E%3C/svg%3E');
-            background-size: cover;
-            animation: fall 8s linear infinite;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Glow effect */
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Particle background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
-            opacity: 0.8;
+            pointer-events: none;
         }
 
-        @keyframes fall {
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: particleFloat 6s linear infinite;
+        }
+
+        @keyframes particleFloat {
             0% {
-                top: -10%;
-                opacity: 0.8;
-                transform: translateX(0) rotate(0deg);
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
             }
             100% {
-                top: 110%;
+                transform: translateY(-10vh) scale(1);
                 opacity: 0;
-                transform: translateX(50px) rotate(360deg);
             }
         }
 
-        /* Hiệu ứng pháo hoa */
+        /* Text gradient */
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 3s ease infinite;
+        }
+
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Bouncing animation */
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
+        }
+
+        .bounce {
+            animation: bounce 2s ease infinite;
+        }
+
+        /* Pulse effect */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Rotating border */
+        .rotating-border {
+            position: relative;
+            border-radius: 20px;
+        }
+
+        .rotating-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            padding: 2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            border-radius: inherit;
+            animation: spin 3s linear infinite;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: subtract;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modern button */
+        .modern-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .modern-btn:hover::before {
+            left: 100%;
+        }
+
+        .modern-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Fireworks container */
         #fireworks-canvas {
             position: fixed;
             top: 0;
@@ -48,65 +187,149 @@
             z-index: 2;
             pointer-events: none;
         }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: white;
+            animation: loading 1s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
     </style>
 </head>
-<body class="bg-gradient-to-b from-blue-100 to-teal-100 text-teal-900">
-    <!-- Lớp phủ cho hiệu ứng -->
-    <div id="heart-container"></div>
+<body>
+    <!-- Particle background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Fireworks canvas -->
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Nội dung chính -->
-    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-10">
-        <!-- Tiêu đề -->
-        <h1 class="text-5xl md:text-6xl font-bold text-teal-800 animate__animated animate__fadeInDown">
-            CHÚC MỪNG TỐT NGHIỆP
-        </h1>
-         <h2 class="text-5xl md:text-6xl font-bold text-teal-800 animate__animated animate__fadeInDown">
-           NGUYỄN TRẦN TRÚC LINH
-        </h2>
-        <p class="text-xl md:text-2xl font-light text-teal-600 mt-4 animate__animated animate__fadeInUp">
-            Một hành trình mới rực rỡ đang chờ em!
-        </p>
-
-        <!-- Lời chúc -->
-        <div class="max-w-3xl mx-auto mt-8 bg-white bg-opacity-80 p-8 rounded-2xl shadow-2xl animate__animated animate__fadeIn">
-            <p class="text-lg md:text-xl leading-relaxed text-teal-700">
-                 Mong em tìm được công việc yêu thích, gặp nhiều may mắn và thành công trên con đường sự nghiệp phía trước
-                <br><br>
-                Chúc em đường dài lương tháng nghìn đô em nhé!
-            </p>
+    <!-- Main content -->
+    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="floating">
+                <h1 class="text-6xl md:text-8xl font-black gradient-text mb-4 drop-shadow-2xl">
+                    🎓 CHÚC MỪNG 🎓
+                </h1>
+            </div>
+            
+            <div class="bounce">
+                <h2 class="text-4xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
+                    NGUYỄN TRẦN TRÚC LINH
+                </h2>
+            </div>
+            
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
+                <p class="text-xl md:text-2xl font-medium text-white">
+                    ✨ Tốt Nghiệp Thành Công ✨
+                </p>
+            </div>
         </div>
 
-        <!-- Hình ảnh kỷ niệm -->
-        <div class="max-w-2xl mx-auto mt-6 animate__animated animate__zoomIn">
-            <img src="1.png" alt="Kỷ niệm của chúng ta" 
-                 class="w-full rounded-xl border-4 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+        <!-- Main Card -->
+        <div class="glass rounded-3xl p-8 md:p-12 max-w-4xl mx-auto glow rotating-border mb-8">
+            <div class="pulse">
+                <h3 class="text-3xl md:text-4xl font-bold text-white text-center mb-6">
+                    🌟 Lời Chúc Đặc Biệt 🌟
+                </h3>
+            </div>
+            
+            <div class="space-y-6 text-center">
+                <p class="text-lg md:text-xl text-white leading-relaxed font-medium">
+                    🚀 Mong em tìm được công việc yêu thích, gặp nhiều may mắn và thành công trên con đường sự nghiệp phía trước!
+                </p>
+                
+                <div class="glass rounded-2xl p-6 glow">
+                    <p class="text-2xl md:text-3xl font-bold text-white gradient-text">
+                        💰 Chúc em đường dài lương tháng nghìn đô em nhé! 💰
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4 text-4xl">
+                    <span class="floating" style="animation-delay: 0s;">🎊</span>
+                    <span class="floating" style="animation-delay: 0.5s;">🎉</span>
+                    <span class="floating" style="animation-delay: 1s;">🥳</span>
+                    <span class="floating" style="animation-delay: 1.5s;">🌟</span>
+                    <span class="floating" style="animation-delay: 2s;">💫</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Section -->
+        <div class="floating">
+            <div class="glass rounded-3xl p-4 glow rotating-border">
+                <img src="1.png" alt="Kỷ niệm tốt nghiệp" 
+                     class="w-full max-w-2xl rounded-2xl shadow-2xl hover:scale-105 transition-all duration-500">
+            </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="mt-8 text-center">
+            <div class="glass rounded-full px-6 py-3 glow">
+                <p class="text-white font-medium">
+                    🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Thêm animate.css cho hiệu ứng -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
     <script>
-        // Mưa trái tim
-        const heartContainer = document.getElementById('heart-container');
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 4 + 6 + 's';
-            heartContainer.appendChild(heart);
-            setTimeout(() => heart.remove(), 8000);
+        // Particle system
+        function createParticles() {
+            const particleContainer = document.getElementById('particles');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particleContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 6000);
+            }, 300);
         }
-        setInterval(createHeart, 200);
 
-        // Pháo hoa
+        // Enhanced fireworks
         const canvas = document.getElementById('fireworks-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        
         let fireworks = [];
         let particles = [];
+
+        // Firework colors
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
 
         function Firework(sx, sy, tx, ty) {
             this.x = sx;
@@ -115,29 +338,36 @@
             this.sy = sy;
             this.tx = tx;
             this.ty = ty;
-            this.distanceToTarget = Math.sqrt(Math.pow(tx - sx, 2) + Math.pow(ty - sy, 2));
+            this.distanceToTarget = Math.sqrt((tx - sx) ** 2 + (ty - sy) ** 2);
             this.distanceTraveled = 0;
             this.coordinates = [];
-            this.coordinateCount = 3;
+            this.coordinateCount = 5;
+            
             while (this.coordinateCount--) {
                 this.coordinates.push([this.x, this.y]);
             }
+            
             this.angle = Math.atan2(ty - sy, tx - sx);
-            this.speed = 3;
-            this.acceleration = 1.08;
-            this.brightness = Math.random() * 40 + 60;
-            this.hue = Math.random() * 360; // Nhiều màu sắc hơn
+            this.speed = 2;
+            this.acceleration = 1.05;
+            this.brightness = Math.random() * 50 + 50;
+            this.targetRadius = 1;
+            this.hue = colors[Math.floor(Math.random() * colors.length)];
         }
 
         Firework.prototype.update = function(index) {
             this.coordinates.pop();
             this.coordinates.unshift([this.x, this.y]);
+            
             this.speed *= this.acceleration;
+            
             let vx = Math.cos(this.angle) * this.speed;
             let vy = Math.sin(this.angle) * this.speed;
-            this.distanceTraveled = Math.sqrt(Math.pow(this.x - this.sx, 2) + Math.pow(this.y - this.sy, 2));
+            
+            this.distanceTraveled = Math.sqrt((this.x - this.sx) ** 2 + (this.y - this.sy) ** 2);
+            
             if (this.distanceTraveled >= this.distanceToTarget) {
-                createParticles(this.tx, this.ty, this.hue);
+                createParticleExplosion(this.tx, this.ty, this.hue);
                 fireworks.splice(index, 1);
             } else {
                 this.x += vx;
@@ -147,37 +377,52 @@
 
         Firework.prototype.draw = function() {
             ctx.beginPath();
-            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.moveTo(
+                this.coordinates[this.coordinates.length - 1][0], 
+                this.coordinates[this.coordinates.length - 1][1]
+            );
             ctx.lineTo(this.x, this.y);
-            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, 0.6)';
+            ctx.strokeStyle = this.hue;
+            ctx.lineWidth = 2;
             ctx.stroke();
+            
+            // Add glow effect
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = this.hue;
+            ctx.fill();
         };
 
         function Particle(x, y, hue) {
             this.x = x;
             this.y = y;
             this.coordinates = [];
-            this.coordinateCount = 5;
+            this.coordinateCount = 8;
+            
             while (this.coordinateCount--) {
                 this.coordinates.push([this.x, this.y]);
             }
+            
             this.angle = Math.random() * Math.PI * 2;
-            this.speed = Math.random() * 12 + 2;
-            this.friction = 0.93;
-            this.gravity = 1.5;
-            this.hue = Math.random() * 50 + hue;
-            this.brightness = Math.random() * 50 + 50;
+            this.speed = Math.random() * 15 + 5;
+            this.friction = 0.95;
+            this.gravity = 1;
+            this.hue = hue;
+            this.brightness = Math.random() * 80 + 20;
             this.alpha = 1;
-            this.decay = Math.random() * 0.04 + 0.02;
+            this.decay = Math.random() * 0.03 + 0.01;
         }
 
         Particle.prototype.update = function(index) {
             this.coordinates.pop();
             this.coordinates.unshift([this.x, this.y]);
+            
             this.speed *= this.friction;
             this.x += Math.cos(this.angle) * this.speed;
             this.y += Math.sin(this.angle) * this.speed + this.gravity;
+            
             this.alpha -= this.decay;
+            
             if (this.alpha <= this.decay) {
                 particles.splice(index, 1);
             }
@@ -185,56 +430,96 @@
 
         Particle.prototype.draw = function() {
             ctx.beginPath();
-            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.moveTo(
+                this.coordinates[this.coordinates.length - 1][0], 
+                this.coordinates[this.coordinates.length - 1][1]
+            );
             ctx.lineTo(this.x, this.y);
-            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, ' + this.alpha + ')';
+            ctx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
+            ctx.lineWidth = 2;
             ctx.stroke();
         };
 
-        function createParticles(x, y, hue) {
-            let particleCount = 80; // Tăng số lượng hạt
+        function createParticleExplosion(x, y, hue) {
+            let particleCount = 120;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
             }
         }
 
-        function launchFromBottom() {
-            const startX = Math.random() * canvas.width;
-            const startY = canvas.height;
-            const targetX = Math.random() * canvas.width;
-            const targetY = Math.random() * (canvas.height / 3);
-            fireworks.push(new Firework(startX, startY, targetX, targetY));
+        function launchFirework() {
+            fireworks.push(new Firework(
+                Math.random() * canvas.width,
+                canvas.height,
+                Math.random() * canvas.width,
+                Math.random() * canvas.height / 2
+            ));
         }
 
         function loop() {
             requestAnimationFrame(loop);
+            
             ctx.globalCompositeOperation = 'destination-out';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'lighter';
-
+            
+            // Update and draw fireworks
             for (let i = fireworks.length - 1; i >= 0; i--) {
                 fireworks[i].draw();
                 fireworks[i].update(i);
             }
-
+            
+            // Update and draw particles
             for (let j = particles.length - 1; j >= 0; j--) {
                 particles[j].draw();
                 particles[j].update(j);
             }
         }
 
-        // Tăng tần suất pháo hoa
-        setInterval(launchFromBottom, 400); // Bắn mỗi 0.4 giây
-        window.onload = loop;
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+            
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = Math.random() + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 4000);
+            }, 150);
+        }
+
+        // Initialize everything
+        window.addEventListener('load', () => {
+            createParticles();
+            createConfetti();
+            loop();
+            
+            // Launch fireworks more frequently
+            setInterval(launchFirework, 300);
+        });
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+
+        // Add click effect
+        document.addEventListener('click', (e) => {
+            fireworks.push(new Firework(
+                Math.random() * canvas.width,
+                canvas.height,
+                e.clientX,
+                e.clientY
+            ));
+        });
     </script>
 </body>
 </html>
-
-
-
