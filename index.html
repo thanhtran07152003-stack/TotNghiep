@@ -4,21 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chúc Mừng Tốt Nghiệp, [Tên Bạn Thân]!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- Cài đặt chung & Font chữ --- */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 100%);
-            color: #004d40; /* Màu chữ xanh đậm */
+            font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
-            text-align: center;
         }
 
-        /* --- Lớp phủ hiệu ứng --- */
+        /* Hiệu ứng mưa trái tim */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="pink"%3E%3Cpath d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/%3E%3C/svg%3E');
+            background-size: cover;
+            animation: fall 8s linear infinite;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 0.8;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+                transform: translateX(50px) rotate(360deg);
+            }
+        }
+
+        /* Hiệu ứng pháo hoa */
         #fireworks-canvas {
             position: fixed;
             top: 0;
@@ -28,175 +48,64 @@
             z-index: 2;
             pointer-events: none;
         }
-        
-        /* --- Hiệu ứng mưa (thay cho tim) --- */
-        .sparkle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: fall 10s linear infinite;
-            z-index: 1;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
-        }
-
-        @keyframes fall {
-            0% {
-                top: -10%;
-                opacity: 1;
-                transform: translateX(0);
-            }
-            100% {
-                top: 110%;
-                opacity: 0.2;
-                transform: translateX(50px);
-            }
-        }
-        
-        /* --- Nội dung chính --- */
-        .content {
-            position: relative;
-            z-index: 3;
-            padding: 50px 20px;
-        }
-
-        h1 {
-            font-size: 3.2em;
-            font-weight: 700;
-            color: #006064; /* Xanh đậm hơn cho tiêu đề */
-            margin-bottom: 15px;
-            animation: fadeInDown 1.5s;
-        }
-
-        p.subtitle {
-            font-size: 1.4em;
-            font-weight: 300;
-            margin-bottom: 40px;
-            color: #00796b;
-            animation: fadeInUp 1.5s;
-        }
-
-        .message {
-            max-width: 700px;
-            margin: 0 auto 50px auto;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 35px;
-            border-radius: 20px;
-            font-size: 1.1em;
-            line-height: 1.7;
-            font-weight: 400;
-            animation: fadeIn 2s;
-            box-shadow: 0 8px 32px 0 rgba(0, 77, 64, 0.1);
-        }
-        
-        /* --- Khu vực hình ảnh duy nhất --- */
-        h2 {
-            font-size: 2em;
-            color: #006064;
-            margin-top: 60px;
-            margin-bottom: 30px;
-            font-weight: 500;
-            animation: fadeIn 2s;
-        }
-
-        .single-image-container {
-            max-width: 800px; /* Tăng độ rộng tối đa */
-            margin: 0 auto;
-            animation: zoomIn 1.5s;
-        }
-
-        .single-image-container img {
-            width: 100%;
-            max-width: 600px; /* Ảnh lớn hơn */
-            height: auto;
-            border-radius: 15px;
-            border: 5px solid #ffffff;
-            box-shadow: 0 10px 40px rgba(0, 105, 92, 0.25);
-            transition: transform 0.4s ease;
-        }
-
-        .single-image-container img:hover {
-            transform: scale(1.03);
-        }
-
-        footer {
-            margin-top: 70px;
-            padding-bottom: 30px;
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #006064;
-            animation: fadeInUp 2s;
-        }
-
-        /* --- Animation cho nội dung --- */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2em; }
-            p.subtitle { font-size: 1.1em; }
-            h2 { font-size: 1.8em; }
-            .message { padding: 25px; }
-            .single-image-container img { max-width: 90%; }
-        }
     </style>
 </head>
-<body>
-
-    <!-- Lớp phủ cho các hiệu ứng -->
-    <div id="sparkle-container"></div>
+<body class="bg-gradient-to-b from-blue-100 to-teal-100 text-teal-900">
+    <!-- Lớp phủ cho hiệu ứng -->
+    <div id="heart-container"></div>
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Nội dung trang web -->
-    <div class="content">
+    <!-- Nội dung chính -->
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-10">
+        <!-- Tiêu đề -->
+        <h1 class="text-5xl md:text-6xl font-bold text-teal-800 animate__animated animate__fadeInDown">
+            CHÚC MỪNG TỐT NGHIỆP, [Tên Bạn Thân]!
+        </h1>
+        <p class="text-xl md:text-2xl font-light text-teal-600 mt-4 animate__animated animate__fadeInUp">
+            Một hành trình mới rực rỡ đang chờ cậu!
+        </p>
 
-        <!-- Thay [Tên Bạn Thân] thành tên của bạn ấy -->
-        <h1>CHÚC MỪNG TỐT NGHIỆP, [Tên Bạn Thân]!</h1>
-        <p class="subtitle">Một chương mới tuyệt vời đang chờ cậu ở phía trước.</p>
-
-        <div class="message">
-            <!-- Thay đổi lời chúc cảm động của bạn ở đây -->
-            <p>
-                Khoảnh khắc cậu mặc chiếc áo cử nhân và cầm trên tay tấm bằng tốt nghiệp thật sự rất tuyệt vời. Tớ cảm thấy vô cùng tự hào và hạnh phúc cho cậu. Hành trình vừa qua tuy có vất vả nhưng cậu đã vượt qua một cách xuất sắc.
+        <!-- Lời chúc -->
+        <div class="max-w-3xl mx-auto mt-8 bg-white bg-opacity-80 p-8 rounded-2xl shadow-2xl animate__animated animate__fadeIn">
+            <p class="text-lg md:text-xl leading-relaxed text-teal-700">
+                Cậu đã làm được điều tuyệt vời, khoác lên mình chiếc áo cử nhân và cầm tấm bằng tốt nghiệp đầy tự hào! Tớ thật sự khâm phục sự nỗ lực và kiên trì của cậu trong hành trình này. 
                 <br><br>
-                Hãy cứ tự tin và dũng cảm theo đuổi những ước mơ của mình nhé. Dù tương lai có ra sao, hãy nhớ rằng cậu luôn có tớ ở bên cạnh.
+                Hãy tiếp tục tỏa sáng và chinh phục những đỉnh cao mới, bạn tớ ơi! Dù tương lai có thế nào, tớ luôn ở đây, đồng hành cùng cậu.
             </p>
         </div>
 
-        <h2>Khoảnh Khắc Của Chúng Ta</h2>
-        <div class="single-image-container">
-            <!-- Đặt ảnh vào thư mục 'images' và gọi tên ở đây -->
-            <!-- CHỈ MỘT ẢNH DUY NHẤT VỚI TÊN 'ky-niem.jpg' -->
-            <img src="images/ky-niem.jpg" alt="Kỷ niệm của chúng ta">
+        <!-- Hình ảnh kỷ niệm -->
+        <h2 class="text-3xl md:text-4xl font-semibold text-teal-800 mt-16 animate__animated animate__fadeIn">
+            Kỷ Niệm Đáng Nhớ
+        </h2>
+        <div class="max-w-2xl mx-auto mt-6 animate__animated animate__zoomIn">
+            <img src="images/ky-niem.jpg" alt="Kỷ niệm của chúng ta" 
+                 class="w-full rounded-xl border-4 border-white shadow-lg hover:scale-105 transition-transform duration-300">
         </div>
 
-        <footer>
-             <!-- Thay [Tên Của Bạn] thành tên của bạn -->
-            <p>Thương mến,<br>[Tên Của Bạn]</p>
+        <!-- Chân trang -->
+        <footer class="mt-16 text-lg font-medium text-teal-800 animate__animated animate__fadeInUp">
+            <p>Thân thương,<br>[Tên Của Bạn]</p>
         </footer>
-
     </div>
 
+    <!-- Thêm animate.css cho hiệu ứng -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <script>
-        // --- SCRIPT CHO HIỆU ỨNG ---
-
-        // 1. Mưa lấp lánh
-        const sparkleContainer = document.getElementById('sparkle-container');
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.left = Math.random() * 100 + 'vw';
-            sparkle.style.animationDuration = Math.random() * 5 + 5 + 's';
-            sparkleContainer.appendChild(sparkle);
-            setTimeout(() => { sparkle.remove(); }, 10000);
+        // Mưa trái tim
+        const heartContainer = document.getElementById('heart-container');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 4 + 6 + 's';
+            heartContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
         }
-        setInterval(createSparkle, 500);
+        setInterval(createHeart, 200);
 
-        // 2. Pháo hoa
+        // Pháo hoa
         const canvas = document.getElementById('fireworks-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -205,20 +114,24 @@
         let particles = [];
 
         function Firework(sx, sy, tx, ty) {
-            this.x = sx; this.y = sy;
-            this.sx = sx; this.sy = sy;
-            this.tx = tx; this.ty = ty;
+            this.x = sx;
+            this.y = sy;
+            this.sx = sx;
+            this.sy = sy;
+            this.tx = tx;
+            this.ty = ty;
             this.distanceToTarget = Math.sqrt(Math.pow(tx - sx, 2) + Math.pow(ty - sy, 2));
             this.distanceTraveled = 0;
             this.coordinates = [];
             this.coordinateCount = 3;
-            while (this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+            while (this.coordinateCount--) {
+                this.coordinates.push([this.x, this.y]);
+            }
             this.angle = Math.atan2(ty - sy, tx - sx);
-            this.speed = 2;
-            this.acceleration = 1.05;
-            // Thay đổi màu sắc pháo hoa sang tone xanh/trắng
-            this.brightness = Math.random() * 30 + 60; // Sáng hơn
-            this.hue = Math.random() * 60 + 180; // Hues trong khoảng Cyan đến Blue
+            this.speed = 3;
+            this.acceleration = 1.08;
+            this.brightness = Math.random() * 40 + 60;
+            this.hue = Math.random() * 360; // Nhiều màu sắc hơn
         }
 
         Firework.prototype.update = function(index) {
@@ -241,25 +154,26 @@
             ctx.beginPath();
             ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
             ctx.lineTo(this.x, this.y);
-            // Đường đạn của pháo hoa
-            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, 0.5)';
+            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, 0.6)';
             ctx.stroke();
         };
 
         function Particle(x, y, hue) {
-            this.x = x; this.y = y;
+            this.x = x;
+            this.y = y;
             this.coordinates = [];
             this.coordinateCount = 5;
-            while (this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+            while (this.coordinateCount--) {
+                this.coordinates.push([this.x, this.y]);
+            }
             this.angle = Math.random() * Math.PI * 2;
-            this.speed = Math.random() * 10 + 1;
-            this.friction = 0.95;
-            this.gravity = 1.2;
-            // Hạt nổ cũng theo tone màu xanh/trắng
-            this.hue = Math.random() * 40 + (hue - 20);
-            this.brightness = Math.random() * 40 + 60;
+            this.speed = Math.random() * 12 + 2;
+            this.friction = 0.93;
+            this.gravity = 1.5;
+            this.hue = Math.random() * 50 + hue;
+            this.brightness = Math.random() * 50 + 50;
             this.alpha = 1;
-            this.decay = Math.random() * 0.03 + 0.015;
+            this.decay = Math.random() * 0.04 + 0.02;
         }
 
         Particle.prototype.update = function(index) {
@@ -269,7 +183,9 @@
             this.x += Math.cos(this.angle) * this.speed;
             this.y += Math.sin(this.angle) * this.speed + this.gravity;
             this.alpha -= this.decay;
-            if (this.alpha <= this.decay) { particles.splice(index, 1); }
+            if (this.alpha <= this.decay) {
+                particles.splice(index, 1);
+            }
         };
 
         Particle.prototype.draw = function() {
@@ -281,47 +197,46 @@
         };
 
         function createParticles(x, y, hue) {
-            let particleCount = 50; // Tăng số lượng hạt cho đẹp hơn
+            let particleCount = 80; // Tăng số lượng hạt
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
             }
         }
-        
+
         function launchFromBottom() {
-            const startX = Math.random() * (canvas.width / 2) + (canvas.width / 4);
+            const startX = Math.random() * canvas.width;
             const startY = canvas.height;
-            const targetX = startX;
-            const targetY = Math.random() * (canvas.height / 2);
+            const targetX = Math.random() * canvas.width;
+            const targetY = Math.random() * (canvas.height / 3);
             fireworks.push(new Firework(startX, startY, targetX, targetY));
         }
 
         function loop() {
             requestAnimationFrame(loop);
             ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'rgba(224, 247, 250, 0.1)'; // Làm mờ nền rất nhẹ để có vệt
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'lighter';
-            
+
             for (let i = fireworks.length - 1; i >= 0; i--) {
                 fireworks[i].draw();
                 fireworks[i].update(i);
             }
-            
+
             for (let j = particles.length - 1; j >= 0; j--) {
                 particles[j].draw();
                 particles[j].update(j);
             }
         }
-        
-        // Tăng tần suất bắn pháo hoa
-        setInterval(launchFromBottom, 800); // Bắn một quả mỗi 0.8 giây
+
+        // Tăng tần suất pháo hoa
+        setInterval(launchFromBottom, 400); // Bắn mỗi 0.4 giây
         window.onload = loop;
 
         window.addEventListener('resize', () => {
-             canvas.width = window.innerWidth;
-             canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
-
     </script>
 </body>
 </html>
