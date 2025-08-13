@@ -271,7 +271,7 @@
                 </h1>
             </div>
             
-            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-20">
                 <p class="text-xl md:text-2xl font-medium text-black">
                      🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
@@ -495,7 +495,7 @@
             this.y = -10;
             this.vx = (Math.random() - 0.5) * 4;
             this.vy = Math.random() * 3 + 2;
-            this.size = Math.random() * 10 + 5;
+            this.size = Math.random() * 8 + 4; // Smaller petals for clarity
             this.angle = Math.random() * Math.PI * 2;
             this.angularVelocity = (Math.random() - 0.5) * 0.1;
             this.color = `hsl(${Math.random() * 30 + 340}, 70%, 60%)`; // Pink/red hues for rose petals
@@ -511,7 +511,7 @@
                 if (dist > 5) {
                     this.vx = (dx / dist) * speed;
                     this.vy = (dy / dist) * speed;
-                    this.angle += this.angularVelocity; // Continue rotating while moving
+                    this.angle += this.angularVelocity; // Rotate while moving
                 } else {
                     this.vx = 0;
                     this.vy = 0;
@@ -552,7 +552,7 @@
             petalCtx.textAlign = 'center';
             const textWidth = petalCtx.measureText(text).width;
             const xOffset = (petalCanvas.width - textWidth) / 2;
-            const yOffset = window.innerHeight * 0.25; // Position where h2 was
+            const yOffset = window.innerHeight * 0.25 + (window.innerWidth <= 640 ? 80 : 120); // Position below h1
 
             // Create temporary canvas to draw text and get pixel data
             const tempCanvas = document.createElement('canvas');
@@ -569,8 +569,8 @@
             targetPoints = [];
 
             // Collect points where text is drawn (white pixels)
-            for (let y = 0; y < tempCanvas.height; y += 5) {
-                for (let x = 0; x < tempCanvas.width; x += 5) {
+            for (let y = 0; y < tempCanvas.height; y += 3) { // Reduced sampling interval
+                for (let x = 0; x < tempCanvas.width; x += 3) {
                     const index = (y * tempCanvas.width + x) * 4;
                     if (data[index + 3] > 0) { // Check alpha channel
                         targetPoints.push({ x, y });
@@ -580,7 +580,7 @@
         }
 
         function createPetals() {
-            for (let i = 0; i < 500; i++) { // Increased number of petals
+            for (let i = 0; i < 1000; i++) { // Increased number of petals
                 petals.push(new Petal());
             }
         }
