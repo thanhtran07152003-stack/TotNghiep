@@ -284,7 +284,7 @@
             <!-- Text formation container -->
             <canvas id="text-formation" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);"></canvas>
             
-            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-25">
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-20">
                 <p class="text-xl md:text-2xl font-medium text-black">
                      🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
@@ -375,7 +375,7 @@
             const startY = catRect.top + catRect.height / 2;
 
             // Set font for measuring text
-            const fontSize = window.innerWidth <= 640 ? 36 : 96;
+            const fontSize = window.innerWidth <= 640 ? 30 : 72;
             ctx.font = `bold ${fontSize}px Inter`;
             const textWidth = ctx.measureText(text).width;
             const centerX = canvas.width / 2 - textWidth / 2;
@@ -577,7 +577,7 @@
         };
 
         function createParticleExplosion(x, y, hue) {
-            let particleCount = window.innerWidth <= 640 ? 60 : 120;
+            let particleCount = window.innerWidth <= 640 ? 50 : 100;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
             }
@@ -664,4 +664,5 @@
     </script>
 </body>
 </html>
+
 
