@@ -272,27 +272,24 @@
     <canvas id="fireworks-canvas"></canvas>
 
     <!-- Main content -->
-    <!-- Main content -->
-<div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
-    <!-- Header Section -->
-    <div class="text-center mb-8">
-        <div class="floating">
-            <h1 class="text-6xl md:text-8xl font-black gradient-text mb-4 drop-shadow-2xl">
-                🎓 CHÚC MỪNG 🎓
-            </h1>
-        </div>
-
-        <!-- Wrapper để giữ canvas và div cách nhau 25px -->
-        <div class="flex flex-col items-center" style="gap: 25px;">
-            <canvas id="text-formation"></canvas>
-
-            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
+    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="floating">
+                <h1 class="text-6xl md:text-8xl font-black gradient-text mb-4 drop-shadow-2xl">
+                    🎓 CHÚC MỪNG 🎓
+                </h1>
+            </div>
+            
+            <!-- Text formation container -->
+            <canvas id="text-formation" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);"></canvas>
+            
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-20">
                 <p class="text-xl md:text-2xl font-medium text-black">
-                    🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
+                     🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
             </div>
         </div>
-
 
         <!-- Main Card -->
         <div class="glass rounded-3xl p-8 md:p-12 max-w-4xl mx-auto glow mb-8">           
@@ -410,16 +407,8 @@
                 tempCtx.fillStyle = '#fff';
                 tempCtx.textAlign = 'center';
 
-                // Calculate position for current letter with adjusted spacing
-                let charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
-                // Add significant spacing for "LINH" to prevent overlap
-                if (text.slice(letterIndex).startsWith("LINH")) {
-                    charX += (letterIndex - text.indexOf("LINH")) * 15; // Increased offset to 15px
-                    // Add fixed offset for "i" to ensure it stands out
-                    if (char === "i") {
-                        charX += 10; // Extra space before "i"
-                    }
-                }
+                // Calculate position for current letter
+                const charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
                 tempCtx.fillText(char, charX, centerY + fontSize / 3);
 
                 const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
@@ -457,10 +446,9 @@
                     }, 2000); // Match animation duration
                 });
 
-                // Move to next letter after a delay, longer for "LINH"
+                // Move to next letter after a delay
                 letterIndex++;
-                const delay = text.slice(letterIndex - 1).startsWith("LINH") ? 2000 : 1000; // 2s for LINH, 1s for others
-                setTimeout(processLetter, delay);
+                setTimeout(processLetter, 1000); // 1s delay between letters
             }
 
             // Start processing the first letter
