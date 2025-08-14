@@ -284,7 +284,7 @@
             <!-- Text formation container -->
             <canvas id="text-formation" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);"></canvas>
             
-            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-20">
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
                 <p class="text-xl md:text-2xl font-medium text-black">
                      🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
@@ -374,8 +374,8 @@
             const startX = catRect.left + catRect.width / 2;
             const startY = catRect.top + catRect.height / 2;
 
-            // Set font for measuring text
-            const fontSize = window.innerWidth <= 640 ? 30 : 72;
+            // Set font for measuring text, reduced size
+            const fontSize = window.innerWidth <= 640 ? 30 : 72; // Reduced from 36:96 to 30:72
             ctx.font = `bold ${fontSize}px Inter`;
             const textWidth = ctx.measureText(text).width;
             const centerX = canvas.width / 2 - textWidth / 2;
@@ -407,8 +407,16 @@
                 tempCtx.fillStyle = '#fff';
                 tempCtx.textAlign = 'center';
 
-                // Calculate position for current letter
-                const charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
+                // Calculate position for current letter with adjusted spacing
+                let charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
+                // Add significant spacing for "LINH" to prevent overlap
+                if (text.slice(letterIndex).startsWith("LINH")) {
+                    charX += (letterIndex - text.indexOf("LINH")) * 15; // Offset to 15px
+                    // Add fixed offset for "i" to ensure it stands out
+                    if (char === "i") {
+                        charX += 10; // Extra space before "i"
+                    }
+                }
                 tempCtx.fillText(char, charX, centerY + fontSize / 3);
 
                 const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
@@ -446,9 +454,10 @@
                     }, 2000); // Match animation duration
                 });
 
-                // Move to next letter after a delay
+                // Move to next letter after a delay, longer for "LINH"
                 letterIndex++;
-                setTimeout(processLetter, 1000); // 1s delay between letters
+                const delay = text.slice(letterIndex - 1).startsWith("LINH") ? 2000 : 1000; // 2s for LINH, 1s for others
+                setTimeout(processLetter, delay);
             }
 
             // Start processing the first letter
@@ -577,7 +586,7 @@
         };
 
         function createParticleExplosion(x, y, hue) {
-            let particleCount = window.innerWidth <= 640 ? 50 : 100;
+            let particleCount = window.innerWidth <= 640 ? 60 : 120;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
             }
@@ -664,5 +673,3 @@
     </script>
 </body>
 </html>
-
-
