@@ -363,7 +363,7 @@
 
         // Petal system for text formation
         function createPetals() {
-            const text = "NGUYỄN TRẦN TRÚC LINH";
+            const text = "NGUYỄN TRẦN TRÚC LIINH"; // Added an extra "I" to "LINH" to make it "LIINH"
             const canvas = document.getElementById('text-formation');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
@@ -375,7 +375,7 @@
             const startY = catRect.top + catRect.height / 2;
 
             // Set font for measuring text, reduced size
-            const fontSize = window.innerWidth <= 640 ? 30 : 72; // Reduced from 36:96 to 30:72
+            const fontSize = window.innerWidth <= 640 ? 30 : 72;
             ctx.font = `bold ${fontSize}px Inter`;
             const textWidth = ctx.measureText(text).width;
             const centerX = canvas.width / 2 - textWidth / 2;
@@ -409,12 +409,12 @@
 
                 // Calculate position for current letter with adjusted spacing
                 let charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
-                // Add significant spacing for "LINH" to prevent overlap
-                if (text.slice(letterIndex).startsWith("LINH")) {
-                    charX += (letterIndex - text.indexOf("LINH")) * 15; // Offset to 15px
-                    // Add fixed offset for "i" to ensure it stands out
-                    if (char === "i") {
-                        charX += 10; // Extra space before "i"
+                // Add significant spacing for "LIINH" to prevent overlap
+                if (text.slice(letterIndex).startsWith("LIINH")) {
+                    charX += (letterIndex - text.indexOf("LIINH")) * 15; // Offset to 15px
+                    // Add fixed offset for both "I"s to ensure they stand out
+                    if (char === "I") {
+                        charX += 10; // Extra space before each "I"
                     }
                 }
                 tempCtx.fillText(char, charX, centerY + fontSize / 3);
@@ -454,9 +454,9 @@
                     }, 2000); // Match animation duration
                 });
 
-                // Move to next letter after a delay, longer for "LINH"
+                // Move to next letter after a delay, longer for "LIINH"
                 letterIndex++;
-                const delay = text.slice(letterIndex - 1).startsWith("LINH") ? 2000 : 1000; // 2s for LINH, 1s for others
+                const delay = text.slice(letterIndex - 1).startsWith("LIINH") ? 2000 : 1000; // 2s for LIINH, 1s for others
                 setTimeout(processLetter, delay);
             }
 
