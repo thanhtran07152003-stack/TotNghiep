@@ -187,6 +187,7 @@
             border-radius: 50% 50% 0 50%;
             transform: rotate(45deg);
             animation: petalFall 4s ease-in-out forwards;
+            z-index: 10;
         }
 
         @keyframes petalFall {
@@ -200,15 +201,16 @@
             }
         }
 
-        /* Text formation */
+        /* Text formation container */
         #text-formation {
             position: absolute;
             top: 20%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4xl md:text-6xl;
+            font-size: 4rem;
             font-weight: bold;
-            color: #ff6b6b;
+            color: transparent;
+            pointer-events: none;
         }
 
         /* Cat image */
@@ -223,9 +225,6 @@
         @media (max-width: 640px) {
             h1 {
                 font-size: 2.5rem !important;
-            }
-            h2 {
-                font-size: 1.8rem !important;
             }
             .glass.rounded-full {
                 padding: 0.5rem 1.5rem !important;
@@ -258,6 +257,10 @@
             #text-formation {
                 font-size: 1.8rem !important;
             }
+            .petal {
+                width: 8px !important;
+                height: 8px !important;
+            }
         }
     </style>
 </head>
@@ -279,7 +282,7 @@
             </div>
             
             <!-- Text formation container -->
-            <div id="text-formation"></div>
+            <canvas id="text-formation" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);"></canvas>
             
             <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
                 <p class="text-xl md:text-2xl font-medium text-black">
@@ -361,70 +364,73 @@
         // Petal system for text formation
         function createPetals() {
             const text = "NGUYỄN TRẦN TRÚC LINH";
-            const textContainer = document.getElementById('text-formation');
+            const canvas = document.getElementById('text-formation');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
             const catImage = document.querySelector('.cat-image img');
             const catRect = catImage.getBoundingClientRect();
             const startX = catRect.left + catRect.width / 2;
             const startY = catRect.top + catRect.height / 2;
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight * 0.2;
-            const letterSpacing = window.innerWidth <= 640 ? 20 : 30;
-            const textWidth = text.length * letterSpacing;
-            let currentX = centerX - textWidth / 2;
 
-            // Create hidden text to measure positions
-            const tempText = document.createElement('div');
-            tempText.style.position = 'absolute';
-            tempText.style.top = '20%';
-            tempText.style.left = '50%';
-            tempText.style.transform = 'translate(-50%, -50%)';
-            tempText.style.fontSize = window.innerWidth <= 640 ? '1.8rem' : '6rem';
-            tempText.style.fontWeight = 'bold';
-            tempText.style.color = 'transparent';
-            tempText.textContent = text;
-            document.body.appendChild(tempText);
-            const textRect = tempText.getBoundingClientRect();
+            // Set font for measuring text
+            const fontSize = window.innerWidth <= 640 ? 36 : 96;
+            ctx.font = `bold ${fontSize}px Inter`;
+            const textWidth = ctx.measureText(text).width;
+            const centerX = canvas.width / 2 - textWidth / 2;
+            const centerY = canvas.height * 0.2;
 
-            // Create petals for each letter
-            text.split('').forEach((char, index) => {
-                const letter = document.createElement('span');
-                letter.textContent = char;
-                letter.style.position = 'absolute';
-                letter.style.left = `${currentX - textRect.left}px`;
-                letter.style.color = '#ff6b6b';
-                textContainer.appendChild(letter);
+            // Create a temporary canvas to get pixel data
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.font = `bold ${fontSize}px Inter`;
+            tempCtx.fillStyle = '#fff';
+            tempCtx.textAlign = 'center';
+            tempCtx.fillText(text, canvas.width / 2, centerY + fontSize / 3);
 
-                // Create multiple petals per letter
-                for (let i = 0; i < 5; i++) {
-                    const petal = document.createElement('div');
-                    petal.classList.add('petal');
-                    petal.style.left = `${startX}px`;
-                    petal.style.top = `${startY}px`;
-                    const endX = currentX - startX;
-                    const endY = (textRect.top - startY) + (Math.random() * 20 - 10);
-                    petal.style.setProperty('--endX', `${endX}px`);
-                    petal.style.setProperty('--endY', `${endY}px`);
-                    petal.style.animationDelay = `${index * 0.1 + i * 0.05}s`;
-                    document.body.appendChild(petal);
+            const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = [];
 
-                    setTimeout(() => {
-                        petal.remove();
-                    }, 4000);
+            // Sample pixels to place petals
+            for (let y = 0; y < imageData.height; y += 5) {
+                for (let x = 0; x < imageData.width; x += 5) {
+                    const index = (y * imageData.width + x) * 4;
+                    if (imageData.data[index + 3] > 128) {
+                        pixels.push({ x, y });
+                    }
                 }
+            }
 
-                currentX += letterSpacing;
+            // Create petals
+            pixels.forEach((pixel, index) => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.left = `${startX}px`;
+                petal.style.top = `${startY}px`;
+                const endX = pixel.x - startX;
+                const endY = pixel.y - startY;
+                petal.style.setProperty('--endX', `${endX}px`);
+                petal.style.setProperty('--endY', `${endY}px`);
+                petal.style.animationDelay = `${index * 0.02}s`;
+                document.body.appendChild(petal);
+
+                // Keep petals in place after animation
+                setTimeout(() => {
+                    petal.style.animation = 'none';
+                    petal.style.transform = `translateY(${endY}px) translateX(${endX}px) rotate(720deg)`;
+                    petal.style.opacity = '0.8';
+                }, 4000);
             });
-
-            setTimeout(() => {
-                tempText.remove();
-            }, 0);
         }
 
         // Enhanced fireworks
-        const canvas = document.getElementById('fireworks-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const fireworksCanvas = document.getElementById('fireworks-canvas');
+        const fireworksCtx = fireworksCanvas.getContext('2d');
+        fireworksCanvas.width = window.innerWidth;
+        fireworksCanvas.height = window.innerHeight;
         
         let fireworks = [];
         let particles = [];
@@ -477,21 +483,21 @@
         };
 
         Firework.prototype.draw = function() {
-            ctx.beginPath();
-            ctx.moveTo(
+            fireworksCtx.beginPath();
+            fireworksCtx.moveTo(
                 this.coordinates[this.coordinates.length - 1][0], 
                 this.coordinates[this.coordinates.length - 1][1]
             );
-            ctx.lineTo(this.x, this.y);
-            ctx.strokeStyle = this.hue;
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            fireworksCtx.lineTo(this.x, this.y);
+            fireworksCtx.strokeStyle = this.hue;
+            fireworksCtx.lineWidth = 2;
+            fireworksCtx.stroke();
             
             // Add glow effect
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-            ctx.fillStyle = this.hue;
-            ctx.fill();
+            fireworksCtx.beginPath();
+            fireworksCtx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            fireworksCtx.fillStyle = this.hue;
+            fireworksCtx.fill();
         };
 
         function Particle(x, y, hue) {
@@ -530,15 +536,15 @@
         };
 
         Particle.prototype.draw = function() {
-            ctx.beginPath();
-            ctx.moveTo(
+            fireworksCtx.beginPath();
+            fireworksCtx.moveTo(
                 this.coordinates[this.coordinates.length - 1][0], 
                 this.coordinates[this.coordinates.length - 1][1]
             );
-            ctx.lineTo(this.x, this.y);
-            ctx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            fireworksCtx.lineTo(this.x, this.y);
+            fireworksCtx.strokeStyle = this.hue + Math.floor(this.alpha * 100) / 100;
+            fireworksCtx.lineWidth = 2;
+            fireworksCtx.stroke();
         };
 
         function createParticleExplosion(x, y, hue) {
@@ -550,20 +556,20 @@
 
         function launchFirework() {
             fireworks.push(new Firework(
-                Math.random() * canvas.width,
-                canvas.height,
-                Math.random() * canvas.width,
-                Math.random() * canvas.height / 2
+                Math.random() * fireworksCanvas.width,
+                fireworksCanvas.height,
+                Math.random() * fireworksCanvas.width,
+                Math.random() * fireworksCanvas.height / 2
             ));
         }
 
         function loop() {
             requestAnimationFrame(loop);
             
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'lighter';
+            fireworksCtx.globalCompositeOperation = 'destination-out';
+            fireworksCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            fireworksCtx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+            fireworksCtx.globalCompositeOperation = 'lighter';
             
             // Update and draw fireworks
             for (let i = fireworks.length - 1; i >= 0; i--) {
@@ -610,6 +616,9 @@
         });
 
         window.addEventListener('resize', () => {
+            fireworksCanvas.width = window.innerWidth;
+            fireworksCanvas.height = window.innerHeight;
+            const canvas = document.getElementById('text-formation');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
@@ -617,8 +626,8 @@
         // Add click effect
         document.addEventListener('click', (e) => {
             fireworks.push(new Firework(
-                Math.random() * canvas.width,
-                canvas.height,
+                Math.random() * fireworksCanvas.width,
+                fireworksCanvas.height,
                 e.clientX,
                 e.clientY
             ));
