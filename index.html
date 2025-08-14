@@ -108,18 +108,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Bouncing animation */
-        @keyframes bounce {
-            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
-            40%, 43% { transform: translate3d(0,-30px,0); }
-            70% { transform: translate3d(0,-15px,0); }
-            90% { transform: translate3d(0,-4px,0); }
-        }
-
-        .bounce {
-            animation: bounce 2s ease infinite;
-        }
-
         /* Pulse effect */
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -190,18 +178,45 @@
             }
         }
 
-        /* Loading animation */
-        .loading {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: white;
-            animation: loading 1s ease-in-out infinite;
+        /* Petal animation */
+        .petal {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff6b6b;
+            border-radius: 50% 50% 0 50%;
+            transform: rotate(45deg);
+            animation: petalFall 4s ease-in-out forwards;
         }
 
-        @keyframes loading {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+        @keyframes petalFall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) rotate(45deg);
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateY(var(--endY)) translateX(var(--endX)) rotate(720deg);
+            }
+        }
+
+        /* Text formation */
+        #text-formation {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4xl md:text-6xl;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        /* Cat image */
+        .cat-image {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
         }
 
         /* Responsive adjustments for mobile */
@@ -237,6 +252,12 @@
                 width: 8px !important;
                 height: 8px !important;
             }
+            .cat-image img {
+                width: 80px !important;
+            }
+            #text-formation {
+                font-size: 1.8rem !important;
+            }
         }
     </style>
 </head>
@@ -257,11 +278,8 @@
                 </h1>
             </div>
             
-            <div class="bounce">
-                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg">
-                    NGUYỄN TRẦN TRÚC LINH
-                </h2>
-            </div>
+            <!-- Text formation container -->
+            <div id="text-formation"></div>
             
             <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
                 <p class="text-xl md:text-2xl font-medium text-black">
@@ -298,7 +316,10 @@
             </div>
         </div>
 
-        <!-- Bottom Section -->
+        <!-- Cat Image -->
+        <div class="cat-image">
+            <img src="cat.jpg" alt="Chú mèo đáng yêu" class="w-32 md:w-40 rounded-full shadow-2xl pulse">
+        </div>
     </div>
 
     <script>
@@ -335,6 +356,68 @@
                     heart.remove();
                 }, 5000);
             }, 200);
+        }
+
+        // Petal system for text formation
+        function createPetals() {
+            const text = "NGUYỄN TRẦN TRÚC LINH";
+            const textContainer = document.getElementById('text-formation');
+            const catImage = document.querySelector('.cat-image img');
+            const catRect = catImage.getBoundingClientRect();
+            const startX = catRect.left + catRect.width / 2;
+            const startY = catRect.top + catRect.height / 2;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight * 0.2;
+            const letterSpacing = window.innerWidth <= 640 ? 20 : 30;
+            const textWidth = text.length * letterSpacing;
+            let currentX = centerX - textWidth / 2;
+
+            // Create hidden text to measure positions
+            const tempText = document.createElement('div');
+            tempText.style.position = 'absolute';
+            tempText.style.top = '20%';
+            tempText.style.left = '50%';
+            tempText.style.transform = 'translate(-50%, -50%)';
+            tempText.style.fontSize = window.innerWidth <= 640 ? '1.8rem' : '6rem';
+            tempText.style.fontWeight = 'bold';
+            tempText.style.color = 'transparent';
+            tempText.textContent = text;
+            document.body.appendChild(tempText);
+            const textRect = tempText.getBoundingClientRect();
+
+            // Create petals for each letter
+            text.split('').forEach((char, index) => {
+                const letter = document.createElement('span');
+                letter.textContent = char;
+                letter.style.position = 'absolute';
+                letter.style.left = `${currentX - textRect.left}px`;
+                letter.style.color = '#ff6b6b';
+                textContainer.appendChild(letter);
+
+                // Create multiple petals per letter
+                for (let i = 0; i < 5; i++) {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal');
+                    petal.style.left = `${startX}px`;
+                    petal.style.top = `${startY}px`;
+                    const endX = currentX - startX;
+                    const endY = (textRect.top - startY) + (Math.random() * 20 - 10);
+                    petal.style.setProperty('--endX', `${endX}px`);
+                    petal.style.setProperty('--endY', `${endY}px`);
+                    petal.style.animationDelay = `${index * 0.1 + i * 0.05}s`;
+                    document.body.appendChild(petal);
+
+                    setTimeout(() => {
+                        petal.remove();
+                    }, 4000);
+                }
+
+                currentX += letterSpacing;
+            });
+
+            setTimeout(() => {
+                tempText.remove();
+            }, 0);
         }
 
         // Enhanced fireworks
@@ -459,7 +542,6 @@
         };
 
         function createParticleExplosion(x, y, hue) {
-            // Reduce particle count on mobile for better performance
             let particleCount = window.innerWidth <= 640 ? 60 : 120;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
@@ -520,9 +602,9 @@
             createParticles();
             createConfetti();
             createHearts();
+            createPetals();
             loop();
             
-            // Launch fireworks less frequently on mobile
             const fireworkInterval = window.innerWidth <= 640 ? 600 : 300;
             setInterval(launchFirework, fireworkInterval);
         });
