@@ -363,7 +363,7 @@
 
         // Petal system for text formation
         function createPetals() {
-            const text = "NGUYỄN TRẦN TRÚC LIINH";
+            const text = "NGUYỄN TRẦN TRÚC LIINH"; // Added an extra "I" to "LINH" to make it "LIINH"
             const canvas = document.getElementById('text-formation');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
@@ -411,7 +411,8 @@
                 let charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
                 // Add significant spacing for "LIINH" to prevent overlap
                 if (text.slice(letterIndex).startsWith("LIINH")) {
-                    charX += (letterIndex - text.indexOf("LIINH")) * 15;
+                    charX += (letterIndex - text.indexOf("LIINH")) * 15; // Offset to 15px
+                    // Add fixed offset for both "I"s to ensure they stand out
                     if (char === "I") {
                         charX += 10; // Extra space before each "I"
                     }
@@ -435,17 +436,13 @@
                 pixels.forEach((pixel, pixelIndex) => {
                     const petal = document.createElement('div');
                     petal.classList.add('petal');
-                    // Add random offset to starting position for more spread
-                    const offsetX = (Math.random() - 0.5) * 20; // Random offset ±10px
-                    const offsetY = (Math.random() - 0.5) * 20; // Random offset ±10px
-                    petal.style.left = `${startX + offsetX}px`;
-                    petal.style.top = `${startY + offsetY}px`;
-                    // Add slight random deviation to end position for more natural spread
-                    const endX = pixel.x - startX + (Math.random() - 0.5) * 10; // ±5px deviation
-                    const endY = pixel.y - startY + (Math.random() - 0.5) * 10; // ±5px deviation
+                    petal.style.left = `${startX}px`;
+                    petal.style.top = `${startY}px`;
+                    const endX = pixel.x - startX;
+                    const endY = pixel.y - startY;
                     petal.style.setProperty('--endX', `${endX}px`);
                     petal.style.setProperty('--endY', `${endY}px`);
-                    petal.style.animationDelay = `${pixelIndex * 0.02}s`;
+                    petal.style.animationDelay = `${pixelIndex * 0.02}s`; // Delay within letter
                     document.body.appendChild(petal);
                     allPetals.push(petal);
 
@@ -459,7 +456,7 @@
 
                 // Move to next letter after a delay, longer for "LIINH"
                 letterIndex++;
-                const delay = text.slice(letterIndex - 1).startsWith("LIINH") ? 2000 : 1000;
+                const delay = text.slice(letterIndex - 1).startsWith("LIINH") ? 2000 : 1000; // 2s for LIINH, 1s for others
                 setTimeout(processLetter, delay);
             }
 
