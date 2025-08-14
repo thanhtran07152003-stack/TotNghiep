@@ -197,8 +197,17 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 5;
-            font-size: 4rem;
+            width: 120px;
+            height: 120px;
             animation: catBounce 2s ease-in-out infinite;
+        }
+
+        .cute-cat img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
         }
 
         @keyframes catBounce {
@@ -206,50 +215,81 @@
             50% { transform: translateY(-60%) rotate(5deg); }
         }
 
-        /* Rose petals animation */
+        /* Rose petals animation - Real flower petals */
         .rose-petal {
             position: absolute;
-            font-size: 1.5rem;
-            color: #ff1493;
+            font-size: 2rem;
             z-index: 4;
             pointer-events: none;
+            transition: all 0.3s ease;
         }
 
-        @keyframes shootRose {
+        .petal {
+            display: inline-block;
+            animation: petalFloat 3s ease-out forwards;
+        }
+
+        @keyframes petalFloat {
             0% {
                 transform: translate(0, 0) rotate(0deg) scale(1);
                 opacity: 1;
             }
-            50% {
+            30% {
                 opacity: 1;
-                transform: rotate(180deg) scale(1.2);
-            }
-            100% {
-                opacity: 0.3;
-                transform: rotate(360deg) scale(0.8);
-            }
-        }
-
-        /* Text formation animation */
-        .text-letter {
-            display: inline-block;
-            opacity: 0;
-            transform: scale(0);
-            animation: letterForm 0.5s ease-out forwards;
-        }
-
-        @keyframes letterForm {
-            0% {
-                opacity: 0;
-                transform: scale(0) rotate(180deg);
+                transform: rotate(90deg) scale(1.1);
             }
             70% {
                 opacity: 1;
-                transform: scale(1.2) rotate(10deg);
+                transform: rotate(180deg) scale(1);
             }
             100% {
                 opacity: 1;
-                transform: scale(1) rotate(0deg);
+                transform: rotate(360deg) scale(0.9);
+            }
+        }
+
+        /* Flower text formation */
+        .flower-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 6;
+            font-size: 4rem;
+            font-weight: bold;
+            color: transparent;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .flower-letter {
+            display: inline-block;
+            position: relative;
+            margin: 0 2px;
+        }
+
+        .flower-in-letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: flowerAppear 0.8s ease-out forwards;
+        }
+
+        @keyframes flowerAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0) rotate(180deg);
+            }
+            70% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
             }
         }
 
@@ -298,16 +338,27 @@
                 height: 8px !important;
             }
             .cute-cat {
-                font-size: 2.5rem !important;
+                width: 80px !important;
+                height: 80px !important;
                 left: 1% !important;
             }
             .rose-petal {
+                font-size: 1.2rem !important;
+            }
+            .flower-text {
+                font-size: 2rem !important;
+            }
+            .flower-in-letter {
                 font-size: 1rem !important;
             }
         }
 
         @media (max-width: 768px) {
             .cute-cat {
+                width: 100px;
+                height: 100px;
+            }
+            .flower-text {
                 font-size: 3rem;
             }
         }
@@ -320,10 +371,13 @@
     <!-- Fireworks canvas -->
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Cute Cat -->
+    <!-- Cute Cat with image -->
     <div class="cute-cat" id="cuteCat">
-        🐱
+        <img src="cat.jpg" alt="Cute Cat" />
     </div>
+
+    <!-- Flower Text Formation -->
+    <div class="flower-text" id="flowerText"></div>
 
     <!-- Main content -->
     <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
@@ -380,12 +434,34 @@
     </div>
 
     <script>
-        // Cat shooting roses system
-        let isTextFormed = false;
+        // Flower petals array with different types
+        const flowerPetals = ['🌸', '🌺', '🌻', '🌷', '🌹', '💐', '🏵️', '🌼'];
         const nameText = "NGUYỄN TRẦN TRÚC LINH";
-        let currentLetterIndex = 0;
+        let flowerTextContainer = document.getElementById('flowerText');
 
-        function shootRoseToPosition(targetX, targetY, delay = 0, letterIndex = 0) {
+        // Initialize flower text structure
+        function initializeFlowerText() {
+            flowerTextContainer.innerHTML = '';
+            const lines = nameText.split(' ');
+            
+            lines.forEach((line, lineIndex) => {
+                const lineDiv = document.createElement('div');
+                lineDiv.style.display = 'block';
+                lineDiv.style.marginBottom = '10px';
+                
+                for (let i = 0; i < line.length; i++) {
+                    const letterSpan = document.createElement('span');
+                    letterSpan.classList.add('flower-letter');
+                    letterSpan.textContent = line[i];
+                    lineDiv.appendChild(letterSpan);
+                }
+                
+                flowerTextContainer.appendChild(lineDiv);
+            });
+        }
+
+        // Shoot petal to form letter
+        function shootPetalToLetter(targetElement, delay = 0) {
             setTimeout(() => {
                 const cat = document.getElementById('cuteCat');
                 cat.classList.add('cat-shooting');
@@ -394,77 +470,136 @@
                     cat.classList.remove('cat-shooting');
                 }, 300);
 
-                const rose = document.createElement('div');
-                rose.classList.add('rose-petal');
-                rose.innerHTML = '🌹';
+                // Create petal
+                const petal = document.createElement('div');
+                petal.classList.add('rose-petal', 'petal');
+                petal.innerHTML = flowerPetals[Math.floor(Math.random() * flowerPetals.length)];
                 
                 const catRect = cat.getBoundingClientRect();
-                rose.style.left = (catRect.right + 20) + 'px';
-                rose.style.top = (catRect.top + catRect.height / 2) + 'px';
-                
-                document.body.appendChild(rose);
-                
-                // Calculate trajectory
                 const startX = catRect.right + 20;
                 const startY = catRect.top + catRect.height / 2;
+                
+                petal.style.left = startX + 'px';
+                petal.style.top = startY + 'px';
+                document.body.appendChild(petal);
+                
+                // Get target position
+                const targetRect = targetElement.getBoundingClientRect();
+                const targetX = targetRect.left + targetRect.width / 2;
+                const targetY = targetRect.top + targetRect.height / 2;
+                
                 const deltaX = targetX - startX;
                 const deltaY = targetY - startY;
                 
-                rose.style.animation = `shootRose 1.5s ease-out forwards`;
-                rose.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                // Animate petal to target
+                petal.style.transition = 'all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                petal.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(720deg)`;
                 
-                // Form letter after rose reaches position
+                // After petal reaches, create flower in letter
                 setTimeout(() => {
-                    formLetter(letterIndex);
-                    rose.remove();
-                }, 1500);
+                    const flowerInLetter = document.createElement('span');
+                    flowerInLetter.classList.add('flower-in-letter');
+                    flowerInLetter.innerHTML = petal.innerHTML;
+                    flowerInLetter.style.animationDelay = '0s';
+                    
+                    targetElement.appendChild(flowerInLetter);
+                    petal.remove();
+                }, 2000);
                 
             }, delay);
         }
 
-        function formLetter(letterIndex) {
-            const nameElement = document.getElementById('nameText');
-            const letters = nameElement.children;
+        // Start flower text formation
+        function startFlowerFormation() {
+            const letters = flowerTextContainer.querySelectorAll('.flower-letter');
+            let delay = 0;
             
-            if (letters[letterIndex]) {
-                letters[letterIndex].classList.add('text-letter');
-                letters[letterIndex].style.animationDelay = '0s';
-            }
+            letters.forEach((letter, index) => {
+                if (letter.textContent.trim() !== '') {
+                    shootPetalToLetter(letter, delay);
+                    delay += 300; // 300ms between each shot
+                }
+            });
         }
 
-        function initializeTextAnimation() {
-            const nameElement = document.getElementById('nameText');
-            const text = nameElement.textContent;
-            nameElement.innerHTML = '';
-            
-            // Create span for each character
-            for (let i = 0; i < text.length; i++) {
-                const span = document.createElement('span');
-                span.textContent = text[i];
-                span.style.opacity = '0';
-                nameElement.appendChild(span);
-            }
-            
-            // Start shooting roses after a delay
-            setTimeout(() => {
-                shootRosesToFormText();
+        // Random petal shooting for decoration
+        function randomPetalShooting() {
+            setInterval(() => {
+                if (Math.random() < 0.4) { // 40% chance
+                    const cat = document.getElementById('cuteCat');
+                    cat.classList.add('cat-shooting');
+                    
+                    setTimeout(() => {
+                        cat.classList.remove('cat-shooting');
+                    }, 300);
+
+                    const petal = document.createElement('div');
+                    petal.classList.add('rose-petal', 'petal');
+                    petal.innerHTML = flowerPetals[Math.floor(Math.random() * flowerPetals.length)];
+                    
+                    const catRect = cat.getBoundingClientRect();
+                    petal.style.left = (catRect.right + 20) + 'px';
+                    petal.style.top = (catRect.top + catRect.height / 2) + 'px';
+                    
+                    document.body.appendChild(petal);
+                    
+                    // Random trajectory
+                    const targetX = Math.random() * window.innerWidth;
+                    const targetY = Math.random() * window.innerHeight * 0.7;
+                    const deltaX = targetX - (catRect.right + 20);
+                    const deltaY = targetY - (catRect.top + catRect.height / 2);
+                    
+                    petal.style.transition = 'all 3s ease-out';
+                    petal.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(1080deg) scale(0.5)`;
+                    petal.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        petal.remove();
+                    }, 3000);
+                }
             }, 2000);
         }
 
-        function shootRosesToFormText() {
-            const nameElement = document.getElementById('nameText');
-            const letters = nameElement.children;
-            const nameRect = nameElement.getBoundingClientRect();
-            
-            for (let i = 0; i < letters.length; i++) {
-                if (letters[i].textContent.trim() !== '') {
-                    const letterRect = letters[i].getBoundingClientRect();
-                    const targetX = letterRect.left + letterRect.width / 2;
-                    const targetY = letterRect.top + letterRect.height / 2;
-                    
-                    shootRoseToPosition(targetX, targetY, i * 200, i);
+        // Cat shooting interaction
+        function setupCatInteraction() {
+            document.getElementById('cuteCat').addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                const cat = document.getElementById('cuteCat');
+                cat.classList.add('cat-shooting');
+                
+                setTimeout(() => {
+                    cat.classList.remove('cat-shooting');
+                }, 300);
+
+                // Create multiple petals for click effect
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const petal = document.createElement('div');
+                        petal.classList.add('rose-petal', 'petal');
+                        petal.innerHTML = flowerPetals[Math.floor(Math.random() * flowerPetals.length)];
+                        
+                        const catRect = cat.getBoundingClientRect();
+                        petal.style.left = (catRect.right + 20) + 'px';
+                        petal.style.top = (catRect.top + catRect.height / 2) + 'px';
+                        
+                        document.body.appendChild(petal);
+                        
+                        // Random directions
+                        const angle = (Math.PI * 2 / 5) * i + Math.random() * 0.5;
+                        const distance = 200 + Math.random() * 200;
+                        const deltaX = Math.cos(angle) * distance;
+                        const deltaY = Math.sin(angle) * distance;
+                        
+                        petal.style.transition = 'all 2s ease-out';
+                        petal.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(720deg)`;
+                        
+                        setTimeout(() => {
+                            petal.remove();
+                        }, 2000);
+                    }, i * 100);
                 }
-            }
+            });
         }
 
         // Particle system
@@ -719,11 +854,18 @@
 
         // Initialize everything
         window.addEventListener('load', () => {
-            initializeTextAnimation();
+            initializeFlowerText();
+            
+            // Start flower formation after 3 seconds
+            setTimeout(() => {
+                startFlowerFormation();
+            }, 3000);
+            
+            setupCatInteraction();
             createParticles();
             createConfetti();
             createHearts();
-            randomRoseShooting();
+            randomPetalShooting();
             loop();
             
             // Launch fireworks less frequently on mobile
