@@ -186,7 +186,7 @@
             background: #ff6b6b;
             border-radius: 50% 50% 0 50%;
             transform: rotate(45deg);
-            animation: petalFall 4s ease-in-out forwards;
+            animation: petalFall 2s ease-in-out forwards;
             z-index: 10;
         }
 
@@ -381,49 +381,78 @@
             const centerX = canvas.width / 2 - textWidth / 2;
             const centerY = canvas.height * 0.2;
 
-            // Create a temporary canvas to get pixel data
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = canvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
-            tempCtx.font = `bold ${fontSize}px Inter`;
-            tempCtx.fillStyle = '#fff';
-            tempCtx.textAlign = 'center';
-            tempCtx.fillText(text, canvas.width / 2, centerY + fontSize / 3);
+            // Array to store all petals
+            const allPetals = [];
 
-            const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
-            const pixels = [];
+            // Process each character sequentially
+            const letters = text.split('');
+            let letterIndex = 0;
 
-            // Sample pixels to place petals
-            for (let y = 0; y < imageData.height; y += 5) {
-                for (let x = 0; x < imageData.width; x += 5) {
-                    const index = (y * imageData.width + x) * 4;
-                    if (imageData.data[index + 3] > 128) {
-                        pixels.push({ x, y });
+            function processLetter() {
+                if (letterIndex >= letters.length) {
+                    // All letters done, wait 10s then clear and restart
+                    setTimeout(() => {
+                        allPetals.forEach(petal => petal.remove());
+                        setTimeout(createPetals, 1000); // Restart after 1s pause
+                    }, 10000); // Display for 10s
+                    return;
+                }
+
+                const char = letters[letterIndex];
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.font = `bold ${fontSize}px Inter`;
+                tempCtx.fillStyle = '#fff';
+                tempCtx.textAlign = 'center';
+
+                // Calculate position for current letter
+                const charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
+                tempCtx.fillText(char, charX, centerY + fontSize / 3);
+
+                const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = [];
+
+                // Sample pixels for the current letter
+                for (let y = 0; y < imageData.height; y += 5) {
+                    for (let x = 0; x < imageData.width; x += 5) {
+                        const index = (y * imageData.width + x) * 4;
+                        if (imageData.data[index + 3] > 128) {
+                            pixels.push({ x, y });
+                        }
                     }
                 }
+
+                // Create petals for the current letter
+                pixels.forEach((pixel, pixelIndex) => {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal');
+                    petal.style.left = `${startX}px`;
+                    petal.style.top = `${startY}px`;
+                    const endX = pixel.x - startX;
+                    const endY = pixel.y - startY;
+                    petal.style.setProperty('--endX', `${endX}px`);
+                    petal.style.setProperty('--endY', `${endY}px`);
+                    petal.style.animationDelay = `${pixelIndex * 0.02}s`; // Delay within letter
+                    document.body.appendChild(petal);
+                    allPetals.push(petal);
+
+                    // Keep petals in place after animation
+                    setTimeout(() => {
+                        petal.style.animation = 'none';
+                        petal.style.transform = `translateY(${endY}px) translateX(${endX}px) rotate(720deg)`;
+                        petal.style.opacity = '0.8';
+                    }, 2000); // Match animation duration
+                });
+
+                // Move to next letter after a delay
+                letterIndex++;
+                setTimeout(processLetter, 1000); // 1s delay between letters
             }
 
-            // Create petals
-            pixels.forEach((pixel, index) => {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
-                petal.style.left = `${startX}px`;
-                petal.style.top = `${startY}px`;
-                const endX = pixel.x - startX;
-                const endY = pixel.y - startY;
-                petal.style.setProperty('--endX', `${endX}px`);
-                petal.style.setProperty('--endY', `${endY}px`);
-                petal.style.animationDelay = `${index * 0.02}s`;
-                document.body.appendChild(petal);
-
-                // Keep petals in place after animation
-                setTimeout(() => {
-                    petal.style.animation = 'none';
-                    petal.style.transform = `translateY(${endY}px) translateX(${endX}px) rotate(720deg)`;
-                    petal.style.opacity = '0.8';
-                }, 4000);
-            });
+            // Start processing the first letter
+            processLetter();
         }
 
         // Enhanced fireworks
