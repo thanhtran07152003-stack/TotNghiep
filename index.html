@@ -284,7 +284,7 @@
             <!-- Text formation container -->
             <canvas id="text-formation" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);"></canvas>
             
-            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-20">
+            <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow mt-25">
                 <p class="text-xl md:text-2xl font-medium text-black">
                      🎓 Một hành trình mới rực rỡ đang chờ em! 🌈
                 </p>
@@ -407,8 +407,12 @@
                 tempCtx.fillStyle = '#fff';
                 tempCtx.textAlign = 'center';
 
-                // Calculate position for current letter
-                const charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
+                // Calculate position for current letter with additional spacing
+                let charX = centerX + ctx.measureText(text.slice(0, letterIndex)).width;
+                // Add extra spacing for "LINH" to avoid overlap, especially for "i"
+                if (text.slice(letterIndex).startsWith("LINH")) {
+                    charX += (letterIndex - text.indexOf("LINH")) * 10; // Increased offset to 10px
+                }
                 tempCtx.fillText(char, charX, centerY + fontSize / 3);
 
                 const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
@@ -446,9 +450,10 @@
                     }, 2000); // Match animation duration
                 });
 
-                // Move to next letter after a delay
+                // Move to next letter after a delay, longer for "LINH"
                 letterIndex++;
-                setTimeout(processLetter, 1000); // 1s delay between letters
+                const delay = text.slice(letterIndex - 1).startsWith("LINH") ? 1500 : 1000; // 1.5s for LINH, 1s for others
+                setTimeout(processLetter, delay);
             }
 
             // Start processing the first letter
@@ -664,4 +669,3 @@
     </script>
 </body>
 </html>
-
