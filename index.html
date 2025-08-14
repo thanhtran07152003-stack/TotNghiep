@@ -190,182 +190,53 @@
             }
         }
 
-        /* Cat Animation */
-        .cute-cat {
-            position: fixed;
-            left: 5%;
-            top: 40%;
-            transform: translateY(-50%);
-            z-index: 15;
-            width: 120px;
-            height: 120px;
-            animation: catBounce 2s ease-in-out infinite;
-            cursor: pointer;
-        }
-
-        .cute-cat-img {
-            width: 100%;
-            height: 100%;
+        /* Loading animation */
+        .loading {
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+            background: white;
+            animation: loading 1s ease-in-out infinite;
         }
 
-        @keyframes catBounce {
-            0%, 100% { transform: translateY(-50%) rotate(-5deg) scale(1); }
-            50% { transform: translateY(-60%) rotate(5deg) scale(1.1); }
+        @keyframes loading {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
         }
 
-        /* Flower text formation */
-        .flower-text-container {
-            position: fixed;
-            top: 25%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            text-align: center;
-            font-weight: 900;
-            font-size: 4rem;
-            line-height: 1.2;
-            pointer-events: none;
-        }
-
-        .flower-letter {
-            display: inline-block;
-            position: relative;
-            margin: 0 4px;
-            width: 60px;
-            height: 70px;
-            vertical-align: top;
-        }
-
-        .flower-in-letter {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            font-size: 2.5rem;
-            opacity: 0;
-            animation: flowerBloom 1s ease-out forwards;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        @keyframes flowerBloom {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0) rotate(180deg);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.3) rotate(90deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1) rotate(0deg);
-            }
-        }
-
-        /* Flying petal animation */
-        .flying-petal {
-            position: fixed;
-            font-size: 2rem;
-            z-index: 12;
-            pointer-events: none;
-            transition: all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Cat shooting animation */
-        @keyframes catShoot {
-            0% { transform: translateY(-50%) scale(1) rotate(-5deg); }
-            30% { transform: translateY(-50%) scale(1.2) rotate(10deg); }
-            100% { transform: translateY(-50%) scale(1) rotate(-5deg); }
-        }
-
-        .cat-shooting {
-            animation: catShoot 0.5s ease-out;
-        }
-
-        /* Letter line styling */
-        .letter-line {
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .cute-cat {
-                width: 100px;
-                height: 100px;
-                left: 3%;
-            }
-            
-            .cute-cat-img {
-                font-size: 3rem;
-            }
-            
-            .flower-text-container {
-                font-size: 2.5rem;
-                top: 22%;
-            }
-            
-            .flower-letter {
-                width: 40px;
-                height: 50px;
-                margin: 0 2px;
-            }
-            
-            .flower-in-letter {
-                font-size: 1.8rem;
-            }
-            
-            .flying-petal {
-                font-size: 1.5rem;
-            }
-        }
-
+        /* Responsive adjustments for mobile */
         @media (max-width: 640px) {
-            .flower-text-container {
-                font-size: 2rem;
-                top: 20%;
+            h1 {
+                font-size: 2.5rem !important;
             }
-            
-            .flower-letter {
-                width: 30px;
-                height: 40px;
-                margin: 0 1px;
+            h2 {
+                font-size: 1.8rem !important;
             }
-            
-            .flower-in-letter {
-                font-size: 1.5rem;
+            .glass.rounded-full {
+                padding: 0.5rem 1.5rem !important;
             }
-        }
-
-        /* Start button styling */
-        .start-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 20;
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        .start-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 105, 180, 0.6);
+            .glass.rounded-3xl {
+                padding: 1rem !important;
+            }
+            p.text-lg {
+                font-size: 1rem !important;
+            }
+            p.text-xl {
+                font-size: 1rem !important;
+            }
+            p.text-2xl {
+                font-size: 1.25rem !important;
+            }
+            img {
+                max-width: 90vw !important;
+            }
+            .heart {
+                font-size: 16px !important;
+            }
+            .confetti {
+                width: 8px !important;
+                height: 8px !important;
+            }
         }
     </style>
 </head>
@@ -376,29 +247,20 @@
     <!-- Fireworks canvas -->
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Cute Cat -->
-    <div class="cute-cat" id="cuteCat">
-        <div class="cute-cat-img">
-            🐱
-        </div>
-    </div>
-
-    <!-- Flower Text Formation Area -->
-    <div class="flower-text-container" id="flowerTextContainer"></div>
-
-    <!-- Start Button -->
-    <button class="start-button" id="startButton">
-        🌸 Bắt đầu bắn hoa! 🌸
-    </button>
-
     <!-- Main content -->
-    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8" style="padding-top: 200px;">
+    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
         <!-- Header Section -->
         <div class="text-center mb-8">
             <div class="floating">
                 <h1 class="text-6xl md:text-8xl font-black gradient-text mb-4 drop-shadow-2xl">
                     🎓 CHÚC MỪNG 🎓
                 </h1>
+            </div>
+            
+            <div class="bounce">
+                <h2 class="text-4xl md:text-6xl font-bold text-red-600 mb-2 drop-shadow-lg">
+                    NGUYỄN TRẦN TRÚC LINH
+                </h2>
             </div>
             
             <div class="glass rounded-full px-8 py-4 mx-auto max-w-fit glow">
@@ -435,185 +297,11 @@
                      class="w-full max-w-2xl rounded-2xl shadow-2xl hover:scale-105 transition-all duration-500">
             </div>
         </div>
+
+        <!-- Bottom Section -->
     </div>
 
     <script>
-        // Flower petals array
-        const flowerPetals = ['🌸', '🌺', '🌻', '🌷', '🌹', '💐', '🏵️', '🌼', '🌿', '🍀'];
-        const nameText = "NGUYỄN TRẦN TRÚC LINH";
-        let flowerTextContainer = document.getElementById('flowerTextContainer');
-        let isFormationComplete = false;
-        let currentLetterIndex = 0;
-
-        // Initialize flower text structure
-        function initializeFlowerText() {
-            flowerTextContainer.innerHTML = '';
-            
-            // Split into lines for better display
-            const lines = ["NGUYỄN TRẦN", "TRÚC LINH"];
-            
-            lines.forEach((line, lineIndex) => {
-                const lineDiv = document.createElement('div');
-                lineDiv.classList.add('letter-line');
-                
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    if (char !== ' ') {
-                        const letterSpan = document.createElement('span');
-                        letterSpan.classList.add('flower-letter');
-                        letterSpan.dataset.char = char;
-                        letterSpan.dataset.index = currentLetterIndex;
-                        lineDiv.appendChild(letterSpan);
-                        currentLetterIndex++;
-                    } else {
-                        // Add space
-                        const spaceSpan = document.createElement('span');
-                        spaceSpan.style.width = '30px';
-                        spaceSpan.style.display = 'inline-block';
-                        lineDiv.appendChild(spaceSpan);
-                    }
-                }
-                
-                flowerTextContainer.appendChild(lineDiv);
-            });
-        }
-
-        // Shoot petal from cat to specific letter position
-        function shootPetalToLetter(targetElement, delay = 0, onComplete = null) {
-            setTimeout(() => {
-                const cat = document.getElementById('cuteCat');
-                cat.classList.add('cat-shooting');
-                
-                setTimeout(() => {
-                    cat.classList.remove('cat-shooting');
-                }, 500);
-
-                // Create flying petal
-                const petal = document.createElement('div');
-                petal.classList.add('flying-petal');
-                petal.innerHTML = flowerPetals[Math.floor(Math.random() * flowerPetals.length)];
-                
-                const catRect = cat.getBoundingClientRect();
-                const startX = catRect.right + 10;
-                const startY = catRect.top + catRect.height / 2;
-                
-                petal.style.left = startX + 'px';
-                petal.style.top = startY + 'px';
-                document.body.appendChild(petal);
-                
-                // Calculate target position
-                const targetRect = targetElement.getBoundingClientRect();
-                const targetX = targetRect.left + targetRect.width / 2;
-                const targetY = targetRect.top + targetRect.height / 2;
-                
-                // Animate petal to target with curved trajectory
-                const controlX = startX + (targetX - startX) * 0.5 + (Math.random() - 0.5) * 200;
-                const controlY = startY + (targetY - startY) * 0.3 - 100;
-                
-                petal.style.transition = 'all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                petal.style.transform = `translate(${targetX - startX}px, ${targetY - startY}px) rotate(720deg) scale(1.2)`;
-                
-                // After petal reaches target, bloom into letter
-                setTimeout(() => {
-                    const flowerInLetter = document.createElement('span');
-                    flowerInLetter.classList.add('flower-in-letter');
-                    flowerInLetter.innerHTML = petal.innerHTML;
-                    flowerInLetter.style.animationDelay = '0s';
-                    
-                    targetElement.appendChild(flowerInLetter);
-                    petal.remove();
-                    
-                    if (onComplete) onComplete();
-                }, 2000);
-                
-            }, delay);
-        }
-
-        // Start flower formation sequence
-        function startFlowerFormation() {
-            const letters = flowerTextContainer.querySelectorAll('.flower-letter');
-            let delay = 0;
-            let completedCount = 0;
-            
-            letters.forEach((letter, index) => {
-                shootPetalToLetter(letter, delay, () => {
-                    completedCount++;
-                    if (completedCount === letters.length) {
-                        isFormationComplete = true;
-                        // Start random shooting after formation is complete
-                        setTimeout(startRandomShooting, 1000);
-                    }
-                });
-                delay += 400; // 400ms between each shot
-            });
-        }
-
-        // Random shooting for decoration
-        function startRandomShooting() {
-            setInterval(() => {
-                if (Math.random() < 0.4) {
-                    shootRandomPetal();
-                }
-            }, 2000);
-        }
-
-        function shootRandomPetal() {
-            const cat = document.getElementById('cuteCat');
-            cat.classList.add('cat-shooting');
-            
-            setTimeout(() => {
-                cat.classList.remove('cat-shooting');
-            }, 500);
-
-            const petal = document.createElement('div');
-            petal.classList.add('flying-petal');
-            petal.innerHTML = flowerPetals[Math.floor(Math.random() * flowerPetals.length)];
-            
-            const catRect = cat.getBoundingClientRect();
-            petal.style.left = (catRect.right + 10) + 'px';
-            petal.style.top = (catRect.top + catRect.height / 2) + 'px';
-            
-            document.body.appendChild(petal);
-            
-            // Random target position
-            const targetX = Math.random() * window.innerWidth;
-            const targetY = Math.random() * (window.innerHeight * 0.7);
-            const deltaX = targetX - (catRect.right + 10);
-            const deltaY = targetY - (catRect.top + catRect.height / 2);
-            
-            petal.style.transition = 'all 3s ease-out';
-            petal.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(1080deg) scale(0.8)`;
-            petal.style.opacity = '0.3';
-            
-            setTimeout(() => {
-                petal.remove();
-            }, 3000);
-        }
-
-        // Cat click interaction
-        function setupCatInteraction() {
-            document.getElementById('cuteCat').addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                // Multi-shot effect
-                for (let i = 0; i < 8; i++) {
-                    setTimeout(() => {
-                        shootRandomPetal();
-                    }, i * 150);
-                }
-            });
-        }
-
-        // Start button functionality
-        function setupStartButton() {
-            document.getElementById('startButton').addEventListener('click', () => {
-                if (!isFormationComplete) {
-                    startFlowerFormation();
-                    document.getElementById('startButton').style.display = 'none';
-                }
-            });
-        }
-
         // Particle system
         function createParticles() {
             const particleContainer = document.getElementById('particles');
@@ -771,6 +459,7 @@
         };
 
         function createParticleExplosion(x, y, hue) {
+            // Reduce particle count on mobile for better performance
             let particleCount = window.innerWidth <= 640 ? 60 : 120;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
@@ -828,9 +517,30 @@
 
         // Initialize everything
         window.addEventListener('load', () => {
-            initializeFlowerText();
-            setupCatInteraction();
-            setupStartButton();
             createParticles();
             createConfetti();
             createHearts();
+            loop();
+            
+            // Launch fireworks less frequently on mobile
+            const fireworkInterval = window.innerWidth <= 640 ? 600 : 300;
+            setInterval(launchFirework, fireworkInterval);
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Add click effect
+        document.addEventListener('click', (e) => {
+            fireworks.push(new Firework(
+                Math.random() * canvas.width,
+                canvas.height,
+                e.clientX,
+                e.clientY
+            ));
+        });
+    </script>
+</body>
+</html>
